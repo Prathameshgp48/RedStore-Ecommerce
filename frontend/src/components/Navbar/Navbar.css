@@ -1,0 +1,32 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 1px 5px 5px #e0dcdc;
+  padding: 15px;
+  background: #fff;
+}
+
+.logo {
+  width: 10%;
+  object-fit: contain;
+  padding-inline: 40px;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 15px;
+}
+
+.nav-menu li {
+  list-style: none;
+  margin-right: 40px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  color: black;
+}

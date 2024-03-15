@@ -1,0 +1,43 @@
+.product-page {
+  display: flex;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.p-col-2 {
+  flex-basis: 50%;
+}
+
+.p-col-2 img {
+  width: 70%;
+}
+
+.p-col-2 h1 {
+  font-size: 50px;
+  line-height: 60px;
+  margin: 25px 0;
+}
+
+.cart-btn {
+  display: inline-block;
+  background: #ff523b;
+  color: #fff;
+  padding: 8px 30px;
+  margin: 30px 0;
+  border-radius: 30px;
+  transition: 0.2s ease-in;
+  margin-left: 10px;
+}
+
+.cart-btn:hover{
+  background: #d65252;
+  transform: scale(105%);
+}
+
+select {
+  padding: 8px 30px;
+  border:solid 1px #ff523b;
+  border-radius: 30px;
+}
