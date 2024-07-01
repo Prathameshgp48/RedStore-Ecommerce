@@ -1,42 +1,43 @@
 import React from "react";
-import "./Home.css";
-import ImageComponent from "../../ImageComponent";
 import { NavLink } from "react-router-dom";
+import ImageComponent from "../../ImageComponent.js";
 
 export default function Home() {
   return (
-    <div>
-      <div className="home">
-        <div className="col-2 home-info">
-          <h1>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col md:flex-row items-center md:justify-between w-full bg-gradient-to-r from-white to-red-300 p-8 md:p-16">
+        <div className="col-2 md:w-1/2 md:order-2 home-hero mb-8 md:mb-0">
+          <ImageComponent imagePath={"/images/image1.png"} altText="My Image" />
+        </div>
+        <div className="md:w-1/2 md:order-1 text-center md:text-left mb-8 md:mb-0">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Give Your Workout
             <br />A New Style!
           </h1>
-          <p>
+          <p className="text-lg md:text-xl lg:text-2xl mb-6">
             Success isn't always about greatness. It's about consistency.
             Consistency hard work gains success. Greatness will come.
           </p>
-          <NavLink href="#explore" className="explore">
-            Explore <i className="fa-solid fa-arrow-right"></i>
+          <NavLink
+            className="inline-block bg-red-500 text-white py-2 px-6 rounded-full transition duration-300 hover:bg-red-600"
+          >
+            Explore <i className="fas fa-arrow-right"></i>
           </NavLink>
-        </div>
-        <div className="col-2 home-hero">
-          <ImageComponent imagePath={"/images/image1.png"} altText="My Image" />
         </div>
       </div>
 
       {/* Categories */}
-      <div className="categories" id="explore">
-        <div className="small-container">
-          <div className="row">
-            <div className="col-3">
-              <ImageComponent imagePath={"/images/category-1.jpg"} altText="" />
+      <div className="py-20">
+        <div className="w-full md:w-4/5 lg:w-2/3 mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="mb-8">
+              <ImageComponent imagePath={"/images/category-1.jpg"} className="w-full" altText="" />
             </div>
-            <div className="col-3">
-              <ImageComponent imagePath={"/images/category-2.jpg"} altText="" />
+            <div className="mb-8">
+              <ImageComponent imagePath={"/images/category-2.jpg"} className="w-full" altText="" />
             </div>
-            <div className="col-3">
-              <ImageComponent imagePath={"/images/category-3.jpg"} altText="" />
+            <div className="mb-8">
+              <ImageComponent imagePath={"/images/category-3.jpg"} className="w-full" altText="" />
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ const data = [
     price: 599,
     description: "random description",
     rating: 4.5,
-    category: "T-shirt"
+    category: "T-shirt",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const data = [
     price: 1899,
     description: "random description",
     rating: 3.8,
-    category: "Sports Shoes"
+    category: "Sports Shoes",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const data = [
     price: 999,
     description: "random description",
     rating: 4,
-    category: "Joggers"
+    category: "Joggers",
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const data = [
     price: 399,
     description: "random description",
     rating: 4.2,
-    category: "T-shirt"
+    category: "T-shirt",
   },
   {
     id: 5,
@@ -42,7 +42,7 @@ const data = [
     price: 2500,
     description: "random description",
     rating: 4.6,
-    category: "Sports Shoes"
+    category: "Sports Shoes",
   },
   {
     id: 6,
@@ -51,7 +51,7 @@ const data = [
     price: 499,
     description: "random description",
     rating: "3.5",
-    category: "T-shirt"
+    category: "T-shirt",
   },
   {
     id: 7,
@@ -60,7 +60,7 @@ const data = [
     price: 500,
     description: "random description",
     rating: 0,
-    category: "Sport Shoes"
+    category: "Sport Shoes",
   },
   {
     id: 8,
@@ -69,7 +69,7 @@ const data = [
     price: 30,
     description: "random description",
     rating: 2.5,
-    category: "T-shirt"
+    category: "T-shirt",
   },
   {
     id: 9,
@@ -78,7 +78,7 @@ const data = [
     price: 1099,
     description: "random description",
     rating: 2,
-    category: "Sports Watch"
+    category: "Sports Watch",
   },
   {
     id: 10,
@@ -87,7 +87,7 @@ const data = [
     price: 3999,
     description: "random description",
     rating: 3.2,
-    category: "Sports Shoes"
+    category: "Sports Shoes",
   },
   {
     id: 11,
@@ -96,7 +96,7 @@ const data = [
     price: 1990,
     description: "random description",
     rating: 2.9,
-    category: "Joggers"
+    category: "Joggers",
   },
   {
     id: 12,
@@ -105,7 +105,7 @@ const data = [
     price: 2999,
     description: "random description",
     rating: 4.8,
-    category: "Joggers"
+    category: "Joggers",
   },
 ];
 

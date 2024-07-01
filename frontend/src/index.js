@@ -7,14 +7,14 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Layout from "./Layout";
-import Products from "./components/Products/Products";
-import Cart from "./components/Cart/Cart";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import ProductDetails from "./components/SingleProduct/ProductDetails";
-import { ProductContextProvider } from "./contexts/ProductContext";
+import Home from "./components/Home/Home.js";
+import Layout from "./Layout.js";
+import Products from "./components/Products/Products.js";
+import Cart from "./components/Cart/Cart.js";
+import Login from "./components/Login/Login.js";
+import Register from "./components/Register/Register.js";
+import ProductDetails from "./components/SingleProduct/ProductDetails.js";
+import { ProductContextProvider } from "./contexts/ProductContext.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

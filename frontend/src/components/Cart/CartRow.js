@@ -1,41 +1,42 @@
 import React from "react";
-import { useProduct } from "../../contexts/ProductContext";
-import ImageComponent from "../../ImageComponent";
+import { useProduct } from "../../contexts/ProductContext.js";
+import ImageComponent from "../../ImageComponent.js";
 
 function CartRow({ item }) {
-  const { quantity, setQuantity, removeCart } = useProduct();
+  const { removeCart, setQuantity } = useProduct();
 
-  const handleQuantity = (e) => {
-    setQuantity(e.target.value);
+  const handleQuantityChange = (e) => {
+    setQuantity(item.id, e.target.value);
   };
 
-  const remove = () => {
+  const handleRemove = () => {
     removeCart(item.id);
   };
 
   return (
     <tr>
       <td>
-        <div className="cart-info">
-          <ImageComponent imagePath={`/images/${item.img}`} />
+        <div className="flex flex-wrap">
+          <img src={item.productimgurl} alt={item.name}/>
           <div>
             <p>{item.name}</p>
             <small>Price: Rs.{item.price}</small>
             <br />
-            <button onClick={remove}>Remove</button>
+            <button onClick={handleRemove}>Remove</button>
           </div>
         </div>
       </td>
+      <td>{item.size}</td>
       <td>
         <input
           type="number"
           min={1}
           max={10}
-          onChange={handleQuantity}
-          value={quantity}
+          value={item.quantity} // Use item.quantity directly
+          onChange={handleQuantityChange}
         />
       </td>
-      <td>Rs.{item.price * quantity}</td>
+      <td>Rs.{item.price * item.quantity}</td> {/* Calculate subtotal using item.quantity */}
     </tr>
   );
 }
