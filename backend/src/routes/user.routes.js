@@ -22,11 +22,11 @@ router.route("/category").get(getCategoryProducts);
 router.route("/products").get(getAllProducts);
 router.route("/products/:id").get(getProductById)
 router.route("/price").get(getProductByPrice);
-router.route("/cart").post(addToCart);
-router.route("/cart").get(viewCart);
 
 //secured routes
 router.route("/logout").post(verifyJWT, logoutUser)
 router.route("/refresh-token").post(refreshAccessToken)
+router.route("/addtocart").post(verifyJWT, addToCart);
+router.route("/cart").get(verifyJWT, viewCart);
 
 export default router;

@@ -10,27 +10,26 @@ export const ProductContextProvider = ({ children }) => {
     setSingleProduct(product);
   };
 
-  const addToCart = (product) => {
-    const checkCart = (cart, product) => {
-      return cart.some((item) => item.id === product.id);
-    };
+  const addToCart = async (product, quantity, size) => {
+    const newCartItem = { ...product, quantity, size }
+    setCart((prevCart) => [...prevCart, newCartItem])
 
-    if (!checkCart(cart, product)) {
-      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]); // Add quantity property to the product being added
-    }
+    // if (!checkCart(cart, product)) {
+
+    // }
   };
 
   const removeCart = (id) => {
     setCart((prev) => prev.filter((cart) => cart.id !== id));
   };
 
-  const setQuantity = (productId, quantity) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: parseInt(quantity) } : item
-      )
-    );
-  };
+  // const setQuantity = (productId, quantity) => {
+  //   setCart((prevCart) =>
+  //     prevCart.map((item) =>
+  //       item.id === productId ? { ...item, quantity: parseInt(quantity) } : item
+  //     )
+  //   );
+  // };
 
   return (
     <ProductContext.Provider
@@ -39,7 +38,6 @@ export const ProductContextProvider = ({ children }) => {
         singleProduct,
         cart,
         addToCart,
-        setQuantity,
         removeCart,
       }}
     >

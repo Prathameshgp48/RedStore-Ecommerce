@@ -1,39 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import App from "./App.js"
 import {
   Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import Home from "./components/Home/Home.js";
-import Layout from "./Layout.js";
-import Products from "./components/Products/Products.js";
-import Cart from "./components/Cart/Cart.js";
-import Login from "./components/Login/Login.js";
-import Register from "./components/Register/Register.js";
-import ProductDetails from "./components/SingleProduct/ProductDetails.js";
-import { ProductContextProvider } from "./contexts/ProductContext.js";
+  Routes,
+  BrowserRouter,
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="" element={<Home />} />
-      <Route path="products" element={<Products />} />
-      <Route path="cart" element={<Cart />} />
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-      <Route path="products/:id" element={<ProductDetails />} />
-    </Route>
-  )
-);
+} from "react-router-dom";
+import { ProductContextProvider } from "./contexts/ProductContext.js";
+import { AuthContextProvider } from "./contexts/AuthContext.js";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ProductContextProvider>
-      <RouterProvider router={router} />
-    </ProductContextProvider>
+    <BrowserRouter>
+      <ProductContextProvider>
+        <AuthContextProvider>
+          <ToastContainer position="top-center" autoClose={3000} />
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </AuthContextProvider>
+      </ProductContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

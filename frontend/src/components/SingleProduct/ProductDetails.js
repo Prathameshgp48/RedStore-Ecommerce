@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useProduct } from "../../contexts/ProductContext.js";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { useProduct } from "../../contexts/ProductContext.js"
+import axios from "axios"
+import AddToCartButton from "./AddToCartButton.js"
+
 
 function ProductDetails() {
-  const { singleProduct, selectProduct, addToCart } = useProduct();
-  const [product, setProduct] = useState(singleProduct || null);
-  const [loading, setLoading] = useState(true);
+  const sizeOptions = {
+    "T-shirt": ["XXL", "XL", "L", "M", "S"],
+    "Joggers": ["XXL", "XL", "L", "M", "S"],
+    "Sports Shoes": ["12", "11", "10", "9", "8"],
+    "classic-watch": []
+  };
+
+  const { singleProduct, selectProduct } = useProduct()
+  const [product, setProduct] = useState(singleProduct || null)
+  const [loading, setLoading] = useState(true)
+  const [selectedSize, setSelectedSize] = useState("Select Size")
+  const [quantity, setQuantity] = useState(1)
+  // const [quantity, setQuantity] = useState(1)
   const { id } = useParams();
-  console.log(id)
+  // console.log(id)
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,18 +48,33 @@ function ProductDetails() {
     }
   }, [id, product, singleProduct, selectProduct]);
 
-  const handleCart = () => {
-    addToCart(product);
-  };
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
+  }
+
+  const handleSizeChange = (e) => {
+    setSelectedSize(e.target.value)
+  }
+
+  // const handleCart = () => {
+  //   if (selectedSize === "Select Size") {
+  //     alert("Please select size")
+  //     return
+  //   }
+
+  //   addToCart({ ...product, size: selectedSize})
+  // };
 
   if (loading) {
     return <div>Loading..</div>
   }
 
   if (!singleProduct) {
-    return <div>Error: Invalid Product</div>;
+    return <div>Error: Invalid Product</div>
   }
 
+  const categorySize = sizeOptions[product.category] || ["Select Size"]
+  // console.log(categorySize)
   return (
     <div className="container mx-auto px-6 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -64,21 +92,31 @@ function ProductDetails() {
           <h4 className="text-2xl font-semibold text-gray-700 mb-4">
             Rs. {product.price}
           </h4>
-          <select className="px-4 py-2 text-center border border-red-500 rounded-full mb-4 mx-4">
-            <option>Select Size</option>
-            <option>XXL</option>
-            <option>XL</option>
-            <option>L</option>
-            <option>M</option>
-            <option>S</option>
-          </select>
-          <Link
-            to="/cart"
-            className="inline-block bg-red-500 text-white py-2 px-6 rounded-full transition-transform duration-200 transform hover:scale-105"
-            onClick={handleCart}
+          <select
+            className="px-4 py-2 text-center border border-red-500 rounded-full mb-4 mx-4"
+            value={selectedSize}
+            onChange={handleSizeChange}
           >
-            Add To Cart
-          </Link>
+            <option>Select Size</option>
+            {categorySize.map((size, index) => (
+              <option key={index} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            min={1}
+            max={10}
+            value={quantity}
+            onChange={handleQuantityChange}
+            className="px-4 py-2 text-center border border-red-500 rounded-full mb-4 mx-4"
+          />
+          <AddToCartButton
+            product={product}
+            selectedSize={selectedSize}
+            quantity={quantity}
+          />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 const generateAccessToken = async (userId, req, res) => {
   try {
-    const response = await pool.query("SELECT id, email, fullname, dob FROM users WHERE id = $1", [userId]);
+    const response = await pool.query("SELECT id, email, fullname FROM users WHERE id = $1", [userId]);
 
     if (response.rows.length === 0) {
       throw new Error('User not found');
@@ -72,9 +72,9 @@ const generateAccessRefreshTokens = async (userId, req, res) => {
 
 const registerUser = async (req, res) => {
   try {
-    const { fullname, email, password, phone_number, dob } = req.body
+    const { fullname, email, password, phone_number } = req.body
 
-    if (!fullname || !email || !password || !phone_number || !dob) {
+    if (!fullname || !email || !password || !phone_number) {
       return res.status(400).json({
         message: "Please provide all fields"
       })
@@ -95,8 +95,8 @@ const registerUser = async (req, res) => {
     console.log(hashedPassword.length)
 
     const user = await pool.query(
-      "INSERT INTO users (fullname, email, password, phone_number, dob) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [fullname, email, hashedPassword, phone_number, dob]
+      "INSERT INTO users (fullname, email, password, phone_number) VALUES ($1, $2, $3, $4) RETURNING *",
+      [fullname, email, hashedPassword, phone_number]
     )
 
 
@@ -119,7 +119,7 @@ const loginUser = async (req, res) => {
     }
 
     const existedUser = await pool.query(
-      "SELECT id, email, password, fullname, dob FROM users WHERE email = $1",
+      "SELECT id, email, password, fullname FROM users WHERE email = $1",
       [email]
     );
 
@@ -156,7 +156,7 @@ const loginUser = async (req, res) => {
 
     res.cookie("accessToken", accessToken, accessOptions)
     res.cookie("refreshToken", refreshToken, refreshOptions)
-
+    console.log("tokens:", accessToken, refreshToken)
     // return res.status(200).json({message: "Done", data: loggedUser})
     return res
       .status(200)
@@ -179,7 +179,8 @@ const logoutUser = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  await pool.query('UPDATE users SET refreshToken = $1 WHERE id = $2', [null, req.user.id])
+  const refresh = await pool.query('UPDATE users SET refreshToken = $1 WHERE id = $2 RETURNING refreshToken;', [null, req.user.id])
+  // console.log("Rfrs:", refresh.rows[0])
 
   const accessOptions = {
     httpOnly: true,
@@ -201,9 +202,9 @@ const logoutUser = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    console.log(req.cookies.accessToken)
+    // console.log(req.cookies.accessToken)
     const products = await pool.query("SELECT * FROM products;");
-    if (products.rows.length == 0) {
+    if (products.rows.length === 0) {
       return res.status(400).json({ message: "Data not found!" });
     }
     // console.log(products);
@@ -313,7 +314,13 @@ const getProductByPrice = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    const { userId, size, product_id, quantity } = req.body;
+    const userId = req.user.id
+    console.log("userid:", userId)
+    const { size, product, quantity } = req.body;
+    console.log(product)
+    if (!size || !product || !quantity) {
+      return res.status(500).json({ message: "No product details" })
+    }
 
     let activeCart = await pool.query(
       "SELECT * FROM Carts WHERE user_id = $1 AND id NOT IN (SELECT cart_id FROM Orders);",
@@ -334,21 +341,21 @@ const addToCart = async (req, res) => {
     //checking if product is already in the cart and if not add it
     const cartProduct = await pool.query(
       "SELECT * FROM CartItems WHERE cart_id = $1 AND product_id = $2",
-      [cart.id, product_id]
+      [cart.id, product.product_id]
     );
 
     if (cartProduct.rows.length === 0) {
       await pool.query(
-        "INSERT INTO CartItems (cart_id, product_id, size, quantity) VALUES($1, $2, $3, $4);",
-        [cart.id, product_id, size, quantity]
+        "INSERT INTO CartItems (cart_id, product_id, size, quantity, product_img, product_name, price) VALUES($1, $2, $3, $4, $5, $6, $7);",
+        [cart.id, product.product_id, size, quantity, product.productimgurl, product.product_name, product.price]
       );
     } else {
       await pool.query(
         "UPDATE CartItems SET quantity = quantity + $1 WHERE cart_id = $2 AND product_id = $3;",
-        [quantity, cart.id, product_id]
-      );
+        [quantity, cart.id, product.product_id]
+      )
 
-      return res.status(200).json({ message: "Product added to cart" });
+      return res.status(200).json({ message: "Product added to cart" })
     }
   } catch (error) {
     console.log("Error:", error);
@@ -362,13 +369,15 @@ const viewCart = async (req, res) => {
   //3.Using cart_id fetch cartItems corresponding to it
   //4.Return
 
-  const { userId } = req.body;
+  const userId = req.user.id
+  // console.log("viewcart userid:", userId)
 
-  const cartId = await pool.query("SELECT id FROM Carts WHERE user_id = $1", [
-    userId,
+  const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1", [
+    userId
   ]);
+  // console.log(cartId.rows)
 
-  if (cartId.rows.length == 0) {
+  if (cartId.rows.length === 0) {
     return res.status(404).json({ message: "Cart does'nt exist!" });
   }
 

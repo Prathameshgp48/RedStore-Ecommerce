@@ -1,8 +1,53 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import ImageComponent from "../../ImageComponent.js";
+import axios from "axios";
+import { useAuth } from "../../contexts/AuthContext.js";
+import { toast } from 'react-toastify'
+
 
 export default function Login() {
+  axios.defaults.withCredentials = true
+  const navigate = useNavigate()
+  const { setlogin } = useAuth()
+  const [login, setLogin] = useState({
+    email: "",
+    password: ""
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setLogin({
+      ...login,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(login)
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/v1/users/login", login)
+      console.log(response.data.message)
+      console.log(response.data)
+      console.log(response)
+      setLogin({
+        email: "",
+        password: ""
+      })
+      toast.success(response.data.message)
+      //authcontext function
+      setlogin()
+      navigate('/products')
+
+    } catch (error) {
+      console.log('Invalid Credentials')
+      toast.error("Invalid Credentials")
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-white to-red-300">
       <div className="flex flex-col md:flex-row items-center md:justify-between w-full max-w-6xl p-8 md:p-16">
@@ -16,10 +61,12 @@ export default function Login() {
           <p className="text-lg md:text-xl lg:text-2xl mb-6">
             Please login to continue.
           </p>
-          <div className="flex flex-col items-center md:items-start w-full max-w-xs bg-white bg-opacity-20 p-8 rounded-2xl shadow-lg backdrop-blur-md border border-white border-opacity-30">
+          <form onSubmit={handleSubmit} className="flex flex-col items-center md:items-start w-full max-w-xs bg-white bg-opacity-20 p-8 rounded-2xl shadow-lg backdrop-blur-md border border-white border-opacity-30">
             <input
               type="email"
               name="email"
+              value={login.email}
+              onChange={handleChange}
               placeholder="Email"
               required
               className="mb-5 w-full p-2 rounded-md border border-gray-300 bg-white bg-opacity-50 outline-none"
@@ -27,6 +74,8 @@ export default function Login() {
             <input
               type="password"
               name="password"
+              value={login.password}
+              onChange={handleChange}
               placeholder="Password"
               className="mb-5 w-full p-2 rounded-md border border-gray-300 bg-white bg-opacity-50 outline-none"
             />
@@ -37,12 +86,12 @@ export default function Login() {
               Login
             </button>
             <p className="text-lg">
-              Don't have an account?{" "}
+              Don't have an account?
               <NavLink to="/register" className="text-blue-600 hover:underline">
                 Register
               </NavLink>
             </p>
-          </div>
+          </form>
         </div>
       </div>
     </div>

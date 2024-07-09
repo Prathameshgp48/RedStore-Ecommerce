@@ -1,25 +1,26 @@
 import React from "react";
 import { useProduct } from "../../contexts/ProductContext.js";
-import ImageComponent from "../../ImageComponent.js";
+// import ImageComponent from "../../ImageComponent.js";
 
 function CartRow({ item }) {
+  
   const { removeCart, setQuantity } = useProduct();
-
   const handleQuantityChange = (e) => {
-    setQuantity(item.id, e.target.value);
+    setQuantity(item.id);
   };
 
   const handleRemove = () => {
     removeCart(item.id);
   };
-
+  
   return (
+    
     <tr>
       <td>
         <div className="flex flex-wrap">
-          <img src={item.productimgurl} alt={item.name}/>
+          <img src={item.product_img} alt={item.product_name}/>
           <div>
-            <p>{item.name}</p>
+            <p>{item.product_name}</p>
             <small>Price: Rs.{item.price}</small>
             <br />
             <button onClick={handleRemove}>Remove</button>
@@ -36,7 +37,7 @@ function CartRow({ item }) {
           onChange={handleQuantityChange}
         />
       </td>
-      <td>Rs.{item.price * item.quantity}</td> {/* Calculate subtotal using item.quantity */}
+      <td>Rs.{Number(item.price) * item.quantity}</td> 
     </tr>
   );
 }

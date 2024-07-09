@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import Card from "../Card/Card.js";
-import axios from "axios";
-import Skeleton from "../Card/Skeleton.js";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import Card from "../Card/Card.js"
+import axios from "axios"
+import Skeleton from "../Card/Skeleton.js"
+import { Link } from "react-router-dom"
 
 export default function Products() {
   //ui management
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   //product state management
-  const [filter, setFilter] = useState("Show All");
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("");
+  const [filter, setFilter] = useState("Show All")
+  const [products, setProducts] = useState([])
+  const [category, setCategory] = useState("")
+
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/users/products?category=${
-            category === "Show All" ? "" : category
+          `http://localhost:8000/api/v1/users/products?category=${category === "Show All" ? "" : category
           }`
         );
         console.log("API Response:", response.data.products);
@@ -53,9 +53,6 @@ export default function Products() {
     setLoading(true);
   };
 
-  // const card = products.map((item) => {
-  //   return <Card key={item.product_id} product={item} />;
-  // });
 
   return (
     <div className="py-10 px-4 sm:px-6">
@@ -66,11 +63,10 @@ export default function Products() {
               (category) => (
                 <button
                   key={category}
-                  className={`px-4 py-2 rounded-md ${
-                    filter === category
-                      ? "bg-red-500 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  } transition-colors duration-200`}
+                  className={`px-4 py-2 rounded-md ${filter === category
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                    } transition-colors duration-200`}
                   onClick={() => handleFilter(category)}
                 >
                   {category}
@@ -82,16 +78,16 @@ export default function Products() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {loading
             ? Array(8)
-                .fill(0)
-                .map((_, index) => <Skeleton key={index} />)
+              .fill(0)
+              .map((_, index) => <Skeleton key={index} />)
             : products.map((product) => (
-                <Link
-                  to={`/products/${product.product_id}`}
-                  key={product.product_id}
-                >
-                  <Card product={product} />
-                </Link>
-              ))}
+              <Link
+                to={`/products/${product.product_id}`}
+                key={product.product_id}
+              >
+                <Card product={product} />
+              </Link>
+            ))}
         </div>
       </div>
     </div>
