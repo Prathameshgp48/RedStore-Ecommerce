@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ImageComponent from "../../ImageComponent.js";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 export default function Register() {
   const [user, setUser] = useState({
@@ -32,6 +34,7 @@ export default function Register() {
           fullname: "",
           phone_number: ""})
     } catch (error) {
+      toast.error(error.response?.data.message)
       console.log("ERROR", error.response?.data);
     }
   };

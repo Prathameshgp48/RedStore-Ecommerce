@@ -2,6 +2,13 @@ import { pool } from "../db/db.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
+// Email regex pattern
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Password regex pattern (example: minimum 8 characters, at least one letter and one number)
+const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+
 const generateAccessToken = async (userId, req, res) => {
   try {
     const response = await pool.query("SELECT id, email, fullname FROM users WHERE id = $1", [userId]);
@@ -78,6 +85,16 @@ const registerUser = async (req, res) => {
       return res.status(400).json({
         message: "Please provide all fields"
       })
+    }
+
+    if (!emailPattern.test(email)) {
+      return res.status(400).json({
+        message: "Invalid email"
+      })
+    }
+
+    if(!passwordPattern.test(password)) {
+       return res.status(400).json({message: "Password must be at least 8 characters long and contain both letters and numbers"})
     }
 
     const existedUser = await pool.query(
