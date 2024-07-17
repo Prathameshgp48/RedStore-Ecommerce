@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 // import { Customer } from "../../models/user.models";
 import {
   addToCart,
-  getAllProducts,
   getCategoryProducts,
   getProductById,
   getProductByPrice,
@@ -13,7 +12,9 @@ import {
   registerUser,
   viewCart,
 } from "../controllers/user.controller.js";
+import {getAllProducts} from "../controllers/cart.controller.js"
 import { verifyJWT } from "../middleware/auth.middleware.js";
+
 const router = Router();
 
 router.route("/register").post(registerUser);
