@@ -22,9 +22,7 @@ export default function Products() {
           }`
         );
         console.log("API Response:", response.data.products);
-        if (Array.isArray(response.data)) {
-          setProducts(response.data);
-        } else if (
+       if (
           typeof response.data === "object" &&
           response.data.products
         ) {

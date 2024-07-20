@@ -1,2 +1,2 @@
-const ServerUrl = "http://localhost:8000"
+const ServerUrl = "http://localhost:8000/api/v1/users"
 export default ServerUrl

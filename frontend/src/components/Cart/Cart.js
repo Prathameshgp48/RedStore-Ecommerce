@@ -3,12 +3,15 @@ import "./Cart.css";
 import CartRow from "./CartRow.js";
 // import { useProduct } from "../../contexts/ProductContext.js";
 import axios from "axios"
+import { NavLink } from "react-router-dom";
+import { useProduct } from "../../contexts/ProductContext.js";
 
 export default function Cart() {
   // const { cart } = useProduct();
   const [cart, setCart] = useState([]);
   // const totalPrice = cart.reduce((acc, product) => acc + product.price * product.quantity, 0); // Ensure total is calculated with quantity
   const [total, setTotal] = useState(0);
+  const { setTotalPrice } = useProduct()
 
   useEffect(() => {
     ; (async () => {
@@ -20,14 +23,13 @@ export default function Cart() {
         console.log(error)
       }
     })();
-
-
   }, [])
 
   useEffect(() => {
     if (cart.length > 0) {
       const totalPrice = cart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0);
       setTotal(totalPrice)
+      setTotalPrice(totalPrice)
     }
   }, [cart])
 
@@ -66,26 +68,12 @@ export default function Cart() {
                 <td className="text-right px-4">Rs.{total + 50}</td>
               </tr>
               <tr>
-                <td colSpan="2" className="border-orange-500 flex justify-between">
-                  <label className="flex items-center">
-                    <input type="radio" name="payment-method" className="mr-2 appearance-none rounded-full border-orange-500 border-2 checked:bg-orange-500 checked:border-orange-500 checked:ring-2 checked:ring-orange-500 focus:outline-none" />
-                    Online Payment
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td className=" flex justify-between">
-                  <label className="flex items-center">
-                    <input type="radio" name="payment-method" className="mr-2 appearance-none rounded-full border border-orange-500 checked:bg-orange-500 checked:border-orange-500 focus:outline-none" />
-                    Cash on Delivery
-                  </label>
-                </td>
-              </tr>
-              <tr>
                 <td colSpan="2" className="text-center py-4">
-                  <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded">
-                    Checkout
-                  </button>
+                  <NavLink to="/checkout/address">
+                    <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded">
+                      Proceed to Checkout
+                    </button>
+                  </NavLink>
                 </td>
               </tr>
 

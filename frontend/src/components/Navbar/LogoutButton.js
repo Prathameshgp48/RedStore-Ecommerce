@@ -13,6 +13,7 @@ function LogoutButton() {
             setlogout()
         } catch (error) {
             console.log("Error:", error)
+            setlogout()
         }
     }
 

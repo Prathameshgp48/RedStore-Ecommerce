@@ -8,6 +8,9 @@ import Register from "./components/Register/Register.js"
 import Layout from "./Layout.js";
 import ProductDetails from "./components/SingleProduct/ProductDetails.js";
 import { useAuth } from "./contexts/AuthContext.js";
+import ShippingAddress from "./components/Address/ShippingAddress.js";
+import VerifyOrder from "./components/Verify/VerifyOrder.js";
+import UserOrder from "./components/Orders/UserOrder.js";
 
 function App() {
   const { isAuthenticated } = useAuth()
@@ -22,6 +25,10 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="products/:id" element={<ProductDetails />} />
           <Route path="/cart" element={isAuthenticated ? <Cart /> : <div className="container flex justify-center items-center h-96">404 page not found</div>} />
+          <Route path="*" element={<div className="container flex justify-center items-center h-96">404 page not found</div>} />
+          <Route path="/checkout/address" element={isAuthenticated ? <ShippingAddress />: <div className="container flex justify-center items-center h-96">404 page not found</div>} />
+          <Route path="/verify" element={isAuthenticated ? <VerifyOrder />: <div className="container flex justify-center items-center h-96">404 page not found</div>}/>
+          <Route path="/myorders" element = {isAuthenticated ? <UserOrder />: <div className="container flex justify-center items-center h-96">404 page not found</div>}/>
         </Route>
       </Routes>
     </>

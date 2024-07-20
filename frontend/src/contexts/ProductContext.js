@@ -5,6 +5,7 @@ const ProductContext = createContext();
 export const ProductContextProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState(null);
   const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
 
   const selectProduct = (product) => {
     setSingleProduct(product);
@@ -39,6 +40,8 @@ export const ProductContextProvider = ({ children }) => {
         cart,
         addToCart,
         removeCart,
+        setTotalPrice,
+        totalPrice
       }}
     >
       {children}

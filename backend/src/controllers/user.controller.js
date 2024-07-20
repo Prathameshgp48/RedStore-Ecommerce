@@ -93,8 +93,8 @@ const registerUser = async (req, res) => {
       })
     }
 
-    if(!passwordPattern.test(password)) {
-       return res.status(400).json({message: "Password must be at least 8 characters long and contain both letters and numbers"})
+    if (!passwordPattern.test(password)) {
+      return res.status(400).json({ message: "Password must be at least 8 characters long and contain both letters and numbers" })
     }
 
     const existedUser = await pool.query(
@@ -296,54 +296,63 @@ const getProductByPrice = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    const userId = req.user.id
-    console.log("userid:", userId)
     const { size, product, quantity } = req.body;
-    console.log(product)
+    console.log("line 300:", req.body);
+
     if (!size || !product || !quantity) {
-      return res.status(500).json({ message: "No product details" })
+      return res.status(400).json({ message: "No product details" });
     }
 
-    let activeCart = await pool.query(
-      "SELECT * FROM Carts WHERE user_id = $1 AND id NOT IN (SELECT cart_id FROM Orders);",
-      [userId]
+    // Check if the user has an active cart
+    const activeCartResult = await pool.query(
+      "SELECT * FROM Carts WHERE user_id = $1 AND NOT EXISTS (SELECT 1 FROM Orders WHERE Orders.cart_id = Carts.id) LIMIT 1; ",
+      [req.user.id]
     );
 
+    console.log("Active cart query result:", activeCartResult.rows)
+
     let cart;
-    if (activeCart.rows.length === 0) {
-      const newCart = await pool.query(
+    // If no active cart exists, create a new one
+    if (activeCartResult.rows.length === 0) {
+      const newCartResult = await pool.query(
         "INSERT INTO Carts (user_id) VALUES ($1) RETURNING *;",
-        [userId]
+        [req.user.id]
       );
-      cart = newCart.rows[0];
+      cart = newCartResult.rows[0];
+      console.log("New cart created:", cart)
     } else {
-      cart = activeCart.rows[0];
+      cart = activeCartResult.rows[0];
+      console.log("Existing cart found: ", cart)
     }
 
-    //checking if product is already in the cart and if not add it
-    const cartProduct = await pool.query(
-      "SELECT * FROM CartItems WHERE cart_id = $1 AND product_id = $2",
+    // Check if the product is already in the cart
+    const cartProductResult = await pool.query(
+      "SELECT * FROM CartItems WHERE cart_id = $1 AND product_id = $2;",
       [cart.id, product.product_id]
     );
 
-    if (cartProduct.rows.length === 0) {
+    if (cartProductResult.rows.length === 0) {
+      // If product is not in the cart, add it
       await pool.query(
         "INSERT INTO CartItems (cart_id, product_id, size, quantity, product_img, product_name, price) VALUES($1, $2, $3, $4, $5, $6, $7);",
         [cart.id, product.product_id, size, quantity, product.productimgurl, product.product_name, product.price]
       );
     } else {
+      // If product is already in the cart, update the quantity
       await pool.query(
         "UPDATE CartItems SET quantity = quantity + $1 WHERE cart_id = $2 AND product_id = $3;",
         [quantity, cart.id, product.product_id]
-      )
-
-      return res.status(200).json({ message: "Product added to cart" })
+      );
+      console.log("Product quantity updated in cart:",product.product_name)
     }
+
+    return res.status(200).json({ message: "Product added to cart" });
   } catch (error) {
     console.log("Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 const viewCart = async (req, res) => {
   //1.retrieve the userId when user hits the endpoint
@@ -352,12 +361,12 @@ const viewCart = async (req, res) => {
   //4.Return
 
   const userId = req.user.id
-  // console.log("viewcart userid:", userId)
+  console.log("viewcart userid:", userId)
 
   const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1", [
     userId
   ]);
-  // console.log(cartId.rows)
+  console.log("line:369", cartId.rows)
 
   if (cartId.rows.length === 0) {
     return res.status(404).json({ message: "Cart does'nt exist!" });
@@ -368,7 +377,7 @@ const viewCart = async (req, res) => {
     [cartId.rows[0].id]
   );
 
-  console.log(cartItems.rows);
+  // console.log(cartItems.rows);
   return res.status(200).json(cartItems.rows);
 };
 
