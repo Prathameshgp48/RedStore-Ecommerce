@@ -68,7 +68,7 @@ const checkout = async (req, res) => {
         await pool.query('BEGIN');
 
         const cartResult = await pool.query(
-            'SELECT * FROM Carts WHERE user_id = $1 AND id NOT IN (SELECT cart_id FROM Orders);',
+            'SELECT * FROM Carts WHERE user_id = $1 AND status=\'ACTIVE\';',
             [userId]
         );
         console.log(cartResult.rows)
@@ -112,6 +112,7 @@ const checkout = async (req, res) => {
         }
 
         await pool.query('DELETE FROM CartItems WHERE cart_id = $1;', [cartId]);
+        await pool.query('UPDATE Carts SET status = \'CHECKED_OUT\' WHERE id=$1;', [cartId])
 
         await pool.query('COMMIT');
 
@@ -129,12 +130,12 @@ const verifyOrder = async (req, res) => {
     const { orderId, success } = req.body
     console.log(req.body)
     try {
-        if (success === "true") {
+        if (success === 'true') {
             await pool.query(
                 "UPDATE Orders SET status = 'PLACED' WHERE id = $1;",
                 [orderId]
             );
-            return res.status(200).json({ message: "Order Placed" });
+            return res.status(200).json({ message: "Order Placed", success });
         }
     } catch (error) {
         await pool.query("DELETE FROM OrderItems WHERE order_id=$1;"[orderId])

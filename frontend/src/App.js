@@ -8,7 +8,7 @@ import Register from "./components/Register/Register.js"
 import Layout from "./Layout.js";
 import ProductDetails from "./components/SingleProduct/ProductDetails.js";
 import { useAuth } from "./contexts/AuthContext.js";
-import ShippingAddress from "./components/Address/ShippingAddress.js";
+import ShippingAddress from "./components/Checkout/ShippingAddress.js";
 import VerifyOrder from "./components/Verify/VerifyOrder.js";
 import UserOrder from "./components/Orders/UserOrder.js";
 

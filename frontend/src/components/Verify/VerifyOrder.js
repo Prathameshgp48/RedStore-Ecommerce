@@ -9,7 +9,7 @@ function VerifyOrder() {
     const navigate = useNavigate()
     const success = searchParams.get("success")
     const orderId = searchParams.get("orderId")
-    // console.log(success, orderId)
+    // console.log(success, orderId, typeof(success))
 
     // if (success === "true") {
     //     navigate(`/order/${orderId}`)
@@ -21,9 +21,9 @@ function VerifyOrder() {
         try {
             const response = await axios.post(`${ServerUrl}/verifyOrder`,{success, orderId})
             console.log(response.data)
-            if (response.data.success === "true") {
+            if (response.data.success === 'true') {
                 navigate('/myorders')
-                toast.success("Order Placed Successfully🥳")
+                toast.success(response.data.message || "Order Placed Successfully🥳")
             } else {
                 toast.error("Something went wrong😑")
                 navigate("/")

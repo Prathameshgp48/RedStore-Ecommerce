@@ -65,7 +65,7 @@ function ShippingAddress() {
     };
 
     fetchAddress();
-  }, []);
+  }, [address]);
 
   return (
     <div className="flex items-center justify-center min-h-screen mx-auto p-4 bg-gradient-to-r from-white to-red-300">

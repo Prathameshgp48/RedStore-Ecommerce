@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Password regex pattern (example: minimum 8 characters, at least one letter and one number)
-const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
 
 const generateAccessToken = async (userId, req, res) => {
@@ -303,9 +303,10 @@ const addToCart = async (req, res) => {
       return res.status(400).json({ message: "No product details" });
     }
 
+
     // Check if the user has an active cart
     const activeCartResult = await pool.query(
-      "SELECT * FROM Carts WHERE user_id = $1 AND NOT EXISTS (SELECT 1 FROM Orders WHERE Orders.cart_id = Carts.id) LIMIT 1; ",
+      "SELECT * FROM Carts WHERE user_id = $1 AND status=\'ACTIVE\'; ",
       [req.user.id]
     );
 
@@ -315,7 +316,7 @@ const addToCart = async (req, res) => {
     // If no active cart exists, create a new one
     if (activeCartResult.rows.length === 0) {
       const newCartResult = await pool.query(
-        "INSERT INTO Carts (user_id) VALUES ($1) RETURNING *;",
+        "INSERT INTO Carts (user_id, status) VALUES ($1, \'ACTIVE\') RETURNING *;",
         [req.user.id]
       );
       cart = newCartResult.rows[0];
@@ -363,7 +364,7 @@ const viewCart = async (req, res) => {
   const userId = req.user.id
   console.log("viewcart userid:", userId)
 
-  const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1", [
+  const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1 AND status=\'ACTIVE\'", [
     userId
   ]);
   console.log("line:369", cartId.rows)

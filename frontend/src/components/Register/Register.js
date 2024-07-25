@@ -27,12 +27,13 @@ export default function Register() {
 
     try {
       const response = await axios.post("http://localhost:8000/api/v1/users/register", user);
-      console.log(response.data.message);
-      console.log(response.data);
-         setUser({email: "",
-          password: "",
-          fullname: "",
-          phone_number: ""})
+      toast.success("You Have Registered Successfully🥳")
+      setUser({
+        email: "",
+        password: "",
+        fullname: "",
+        phone_number: ""
+      })
     } catch (error) {
       toast.error(error.response?.data.message)
       console.log("ERROR", error.response?.data);
