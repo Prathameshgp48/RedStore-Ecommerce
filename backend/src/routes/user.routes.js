@@ -10,7 +10,7 @@ import {
   registerUser,
   viewCart,
 } from "../controllers/user.controller.js"
-import { getAllProducts } from "../controllers/cart.controller.js"
+import { getAllProducts, removeFromCart } from "../controllers/cart.controller.js"
 import { verifyJWT } from "../middleware/auth.middleware.js"
 import { userAddress, updateAddress, checkout, verifyOrder, userOrders } from "../controllers/order.controller.js"
 
@@ -33,5 +33,6 @@ router.route("/updateaddress").post(verifyJWT, updateAddress)
 router.route("/order/checkout").post(verifyJWT, checkout)
 router.route("/verifyorder").post(verifyJWT, verifyOrder)
 router.route("/myorders").post(verifyJWT, userOrders)
+router.route("/removefromcart").post(verifyJWT, removeFromCart)
 
 export default router;

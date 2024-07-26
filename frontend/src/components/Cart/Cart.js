@@ -7,10 +7,10 @@ import { NavLink } from "react-router-dom";
 import { useProduct } from "../../contexts/ProductContext.js";
 
 export default function Cart() {
-  // const { cart } = useProduct();
-  const [cart, setCart] = useState([]);
+  const { cart } = useProduct();
+  const [currentCart, setCurrentCart] = useState([])
   // const totalPrice = cart.reduce((acc, product) => acc + product.price * product.quantity, 0); // Ensure total is calculated with quantity
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0)
   const { setTotalPrice } = useProduct()
 
   useEffect(() => {
@@ -18,12 +18,12 @@ export default function Cart() {
       try {
         const response = await axios.get("http://localhost:8000/api/v1/users/cart")
         console.log(response.data)
-        setCart(response.data)
+        setCurrentCart(response.data)
       } catch (error) {
         console.log(error)
       }
     })();
-  }, [])
+  }, [cart])
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -31,9 +31,9 @@ export default function Cart() {
       setTotal(totalPrice)
       setTotalPrice(totalPrice)
     }
-  }, [cart])
+  }, [])
 
-  if (cart.length !== 0) {
+  if (currentCart.length !== 0) {
     return (
       <div className="container grid grid-cols-1 md:grid-cols-2 px-25">
         <table className="w-4/5 mx-auto my-10 border-collapse border">
@@ -46,7 +46,7 @@ export default function Cart() {
             </tr>
           </thead>
           <tbody>
-            {cart.map((item) => (
+            {currentCart.map((item) => (
               <CartRow key={item.id} item={item} />
             ))}
           </tbody>
