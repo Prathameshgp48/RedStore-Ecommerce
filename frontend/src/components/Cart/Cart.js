@@ -1,38 +1,52 @@
-import React, { useEffect, useState } from "react";
-import "./Cart.css";
-import CartRow from "./CartRow.js";
-// import { useProduct } from "../../contexts/ProductContext.js";
+import React, { useEffect, useState } from "react"
+import "./Cart.css"
+import CartRow from "./CartRow.js"
 import axios from "axios"
-import { NavLink } from "react-router-dom";
-import { useProduct } from "../../contexts/ProductContext.js";
-import ServerUrl from "../../constant.js";
+import { NavLink } from "react-router-dom"
+import { useProduct } from "../../contexts/ProductContext.js"
+import ServerUrl from "../../constant.js"
 
 export default function Cart() {
-  const { cart } = useProduct();
   const [currentCart, setCurrentCart] = useState([])
-  // const totalPrice = cart.reduce((acc, product) => acc + product.price * product.quantity, 0); // Ensure total is calculated with quantity
   const [total, setTotal] = useState(0)
-  const { setTotalPrice } = useProduct()
+  const { setTotalPrice, checkout } = useProduct()
 
   useEffect(() => {
-    ; (async () => {
+    const savedCart = localStorage.getItem('cart')
+    if (savedCart) setCurrentCart(JSON.parse(savedCart))
+  }, [])
+
+  useEffect(() => {
+    if (currentCart.length > 0) localStorage.setItem('cart', JSON.stringify(currentCart))
+  }, [currentCart])
+
+  useEffect(() => {
+    (async () => {
       try {
         const response = await axios.get(`${ServerUrl}/cart`)
-        console.log(response.data)
         setCurrentCart(response.data)
       } catch (error) {
         console.log(error)
       }
-    })();
-  }, [cart])
+    })()
+  }, [])
 
   useEffect(() => {
-    if (cart.length > 0) {
-      const totalPrice = cart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0);
+    if (currentCart.length > 0) {
+      const totalPrice = currentCart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0)
       setTotal(totalPrice)
       setTotalPrice(totalPrice)
+    } else {
+      setTotal(0)
     }
-  }, [])
+  }, [currentCart, setTotalPrice])
+
+  useEffect(() => {
+    if (checkout) {
+      localStorage.removeItem('cart')
+      setCurrentCart([])
+    }
+  }, [checkout])
 
   if (currentCart.length !== 0) {
     return (
@@ -41,7 +55,7 @@ export default function Cart() {
           <thead>
             <tr className="bg-gray-200">
               <th className="text-left py-2 px-4">Product</th>
-              <th className="text-left py-2 pr-4">size</th>
+              <th className="text-left py-2 pr-4">Size</th>
               <th className="text-left py-2 px-4">Quantity</th>
               <th className="text-left py-2 px-4">Price</th>
             </tr>
@@ -77,17 +91,16 @@ export default function Cart() {
                   </NavLink>
                 </td>
               </tr>
-
             </tbody>
           </table>
         </div>
       </div>
-    );
+    )
   } else {
     return (
       <div className="flex justify-center items-center h-96">
         <h1>Your Cart is Empty!</h1>
       </div>
-    );
+    )
   }
 }

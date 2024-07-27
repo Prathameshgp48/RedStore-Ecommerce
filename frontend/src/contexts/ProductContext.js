@@ -6,6 +6,7 @@ export const ProductContextProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState(null);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
+  const [checkout, setCheckout] = useState(false)
 
   const selectProduct = (product) => {
     setSingleProduct(product);
@@ -41,7 +42,9 @@ export const ProductContextProvider = ({ children }) => {
         addToCart,
         removeCart,
         setTotalPrice,
-        totalPrice
+        totalPrice,
+        checkout,
+        setCheckout
       }}
     >
       {children}

@@ -21,7 +21,7 @@ export const createStripeSession = async (cartItems, orderId) => {
                 product_data: {
                     name: "Shipping Charges"
                 },
-                unit_amount: 50
+                unit_amount: 50*100
             },
             quantity: 1
         })
