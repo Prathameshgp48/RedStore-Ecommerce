@@ -5,7 +5,7 @@ import ImageComponent from "../../ImageComponent.js";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="flex flex-col md:flex-row items-center md:justify-between w-full bg-gradient-to-r from-white to-red-300 p-8 md:p-16">
+      <div className="flex flex-col md:flex-row items-center md:justify-between w-full bg-gradient-to-r from-white to-red-400 p-8 md:p-16">
         <div className="col-2 md:w-1/2 md:order-2 home-hero mb-8 md:mb-0">
           <ImageComponent imagePath={"/images/image1.png"} altText="My Image" />
         </div>

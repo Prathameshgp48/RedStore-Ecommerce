@@ -10,7 +10,7 @@ export default function Navbar() {
   // console.log(isAuthenticated)
 
   return (
-    <div className="flex justify-between items-center py-4 px-6  bg-gradient-to-r from-white to-red-300 shadow-md">
+    <div className="flex justify-between items-center py-4 px-6  bg-gradient-to-r from-white to-red-400 shadow-md">
       <img className="w-[10%] object-contain py-2 px-3" src={logo} alt="logo" />
       <ul className="flex justify-between items-center px-4">
         <NavLink to="" className="text-black text-base no-underline">

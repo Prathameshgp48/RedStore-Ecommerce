@@ -5,6 +5,7 @@ import CartRow from "./CartRow.js";
 import axios from "axios"
 import { NavLink } from "react-router-dom";
 import { useProduct } from "../../contexts/ProductContext.js";
+import ServerUrl from "../../constant.js";
 
 export default function Cart() {
   const { cart } = useProduct();
@@ -16,7 +17,7 @@ export default function Cart() {
   useEffect(() => {
     ; (async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/v1/users/cart")
+        const response = await axios.get(`${ServerUrl}/cart`)
         console.log(response.data)
         setCurrentCart(response.data)
       } catch (error) {
