@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "postinstall": "npm rebuild bcrypt --build-from-source"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
