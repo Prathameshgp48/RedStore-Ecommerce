@@ -1,5 +1,5 @@
 import { pool } from "../db/db.js"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 // Email regex pattern
@@ -115,7 +115,6 @@ const registerUser = async (req, res) => {
       "INSERT INTO users (fullname, email, password, phone_number) VALUES ($1, $2, $3, $4) RETURNING *",
       [fullname, email, hashedPassword, phone_number]
     )
-
 
     // console.log(token)
     return res.status(201).json({ data: user.rows[0] })

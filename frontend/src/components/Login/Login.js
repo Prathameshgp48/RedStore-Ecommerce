@@ -4,6 +4,7 @@ import ImageComponent from "../../ImageComponent.js";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext.js";
 import { toast } from 'react-toastify'
+import ServerUrl from "../../constant.js";
 
 
 export default function Login() {
@@ -34,7 +35,7 @@ export default function Login() {
     console.log(login)
 
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/users/login", login)
+      const response = await axios.post(`${ServerUrl}/login`, login)
       console.log(response.data.message)
       console.log(response.data)
       console.log(response)
@@ -48,7 +49,7 @@ export default function Login() {
       navigate('/products')
 
     } catch (error) {
-      console.log('Invalid Credentials')
+      console.log(error)
       toast.error("Invalid Credentials")
     }
   }
