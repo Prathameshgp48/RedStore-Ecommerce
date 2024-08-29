@@ -23,8 +23,8 @@ const addProduct = async (req, res) => {
     }
 
     try {
-        const product = await pool.query("INSERT INTO products (product_name, category, price, description, productimgurl) VALUES ($1, $2, $3, $4, $5) RETURNING *;", [
-            name, category, price, description, img_url.url
+        const product = await pool.query("INSERT INTO products (product_name, category, price, description, instock, productimgurl) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;", [
+            name, category, price, description, stock, img_url.url
         ])
 
         if (product.rows.length === 0) {

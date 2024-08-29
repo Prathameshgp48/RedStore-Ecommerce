@@ -87,7 +87,7 @@ function ProductDetails() {
         </div>
         <div className="text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-semibold mb-4">
-            {product.name}
+            {product.product_name}
           </h1>
           <h4 className="text-2xl font-semibold text-gray-700 mb-4">
             Rs. {product.price}
@@ -117,6 +117,9 @@ function ProductDetails() {
             selectedSize={selectedSize}
             quantity={quantity}
           />
+           <p className="mb-4">
+            {product.description}
+          </p>
         </div>
       </div>
     </div>

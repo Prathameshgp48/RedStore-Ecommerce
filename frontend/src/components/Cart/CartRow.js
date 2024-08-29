@@ -1,31 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProduct } from "../../contexts/ProductContext.js";
 import ServerUrl from "../../constant.js";
 import { toast } from "react-toastify";
 import axios from "axios";
-// import ImageComponent from "../../ImageComponent.js";
+import { useAuth } from "../../contexts/AuthContext.js";
+
 
 function CartRow({ item }) {
 
-  const { removeCart, setQuantity, cart } = useProduct();
+  const { removeCart, setQuantity } = useProduct()
+  const { isAuthenticated } = useAuth()
+  console.log(isAuthenticated)
+
   const handleQuantityChange = (e) => {
     setQuantity(item.id);
   };
 
   const handleRemove = async () => {
     const productId = item.product_id
-    console.log(productId)
-    try {
-      const response = await axios.post(`${ServerUrl}/removefromcart`, { productId })
-      console.log(response.data)
-      if (response.status == 200) {
-        toast.success(response.data?.message || "Product Removed From the Cart")
-        removeCart(item.id)
-      }
 
-    } catch (error) {
-      console.log(error)
-      toast.error("Something went wrong")
+    if (isAuthenticated) {
+      try {
+        const response = await axios.post(`http://localhost:8000/api/v1/users/removefromcart`, { productId })
+        console.log(response.data)
+        if (response.status >= 200) {
+          removeCart(item.id)
+          toast.success(response.data?.message || "Product Removed From the Cart")
+        }
+
+      } catch (error) {
+        console.log(error)
+        toast.error("Something went wrong")
+      }
     }
   };
 
@@ -49,7 +55,7 @@ function CartRow({ item }) {
           type="number"
           min={1}
           max={10}
-          value={item.quantity} // Use item.quantity directly
+          value={item.quantity}
           onChange={handleQuantityChange}
         />
       </td>

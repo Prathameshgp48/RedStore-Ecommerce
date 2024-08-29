@@ -21,7 +21,7 @@ const generateAccessToken = async (userId, req, res) => {
     const user = response.rows[0]
 
 
-    const accessToken = await jwt.sign(
+    const accessToken = jwt.sign(
       {
         id: user.id,
         email: user.email,
@@ -117,7 +117,7 @@ const registerUser = async (req, res) => {
     )
 
     // console.log(token)
-    return res.status(201).json({ data: user.rows[0] })
+    return res.status(201).json({ data: user.rows[0] , message: "Registered Successfully!"})
   } catch (error) {
     console.error(error)
     res.status(500).json({
@@ -172,14 +172,13 @@ const loginUser = async (req, res) => {
 
     res.cookie("accessToken", accessToken, accessOptions)
     res.cookie("refreshToken", refreshToken, refreshOptions)
-    console.log("tokens:", accessToken, refreshToken)
+    // console.log("tokens:",accessToken)
     // return res.status(200).json({message: "Done", data: loggedUser})
     return res
       .status(200)
       .json({
         message: "Login Successful",
-        accessToken,
-        refreshToken,
+        token: accessToken,
         loggedUser
       })
   } catch (error) {
@@ -343,7 +342,7 @@ const addToCart = async (req, res) => {
         "UPDATE CartItems SET quantity = quantity + $1 WHERE cart_id = $2 AND product_id = $3;",
         [quantity, cart.id, product.product_id]
       );
-      console.log("Product quantity updated in cart:",product.product_name)
+      console.log("Product quantity updated in cart:", product.product_name)
     }
 
     return res.status(200).json({ message: "Product added to cart" });

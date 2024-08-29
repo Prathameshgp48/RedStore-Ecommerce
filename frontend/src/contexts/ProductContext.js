@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState } from "react";
-
+import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
 const ProductContext = createContext();
 
 export const ProductContextProvider = ({ children }) => {
-  const [singleProduct, setSingleProduct] = useState(null);
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  const [singleProduct, setSingleProduct] = useState(null)
+  const [cart, setCart] = useState([])
+  const [totalPrice, setTotalPrice] = useState()
   const [checkout, setCheckout] = useState(false)
 
   const selectProduct = (product) => {
@@ -15,23 +15,34 @@ export const ProductContextProvider = ({ children }) => {
   const addToCart = async (product, quantity, size) => {
     const newCartItem = { ...product, quantity, size }
     setCart((prevCart) => [...prevCart, newCartItem])
-
-    // if (!checkCart(cart, product)) {
-
-    // }
   };
 
   const removeCart = (id) => {
     setCart((prev) => prev.filter((cart) => cart.id !== id));
   };
 
-  // const setQuantity = (productId, quantity) => {
-  //   setCart((prevCart) =>
-  //     prevCart.map((item) =>
-  //       item.id === productId ? { ...item, quantity: parseInt(quantity) } : item
-  //     )
-  //   );
-  // };
+  const loadCartData = async (authStatus) => {
+    console.log(authStatus)
+    if (authStatus) {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/users/cart`, {
+          withCredentials: true
+        })
+        setCart(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (localStorage.getItem("isAuthenticated")) {
+        await loadCartData(localStorage.getItem("isAuthenticated"))
+      }
+    }
+    loadData()
+  }, [])
 
   return (
     <ProductContext.Provider
