@@ -25,6 +25,9 @@ export default function Navbar() {
             <NavLink to="/cart" className="text-black text-base no-underline">
               <li className="list-none mr-10">Cart</li>
             </NavLink>
+            <NavLink to="/myorders" className="text-black text-base no-underline">
+              <li className="list-none mr-10">MyOrders</li>
+            </NavLink>
             <LogoutButton />
           </> :
           <LoginButton />

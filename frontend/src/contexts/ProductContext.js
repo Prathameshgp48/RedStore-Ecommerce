@@ -7,6 +7,7 @@ export const ProductContextProvider = ({ children }) => {
   const [cart, setCart] = useState([])
   const [totalPrice, setTotalPrice] = useState()
   const [checkout, setCheckout] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const selectProduct = (product) => {
     setSingleProduct(product);
@@ -37,12 +38,16 @@ export const ProductContextProvider = ({ children }) => {
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true)
       if (localStorage.getItem("isAuthenticated")) {
         await loadCartData(localStorage.getItem("isAuthenticated"))
       }
+      setLoading(false)
     }
     loadData()
   }, [])
+
+
 
   return (
     <ProductContext.Provider
@@ -55,7 +60,8 @@ export const ProductContextProvider = ({ children }) => {
         setTotalPrice,
         totalPrice,
         checkout,
-        setCheckout
+        setCheckout,
+        loading
       }}
     >
       {children}

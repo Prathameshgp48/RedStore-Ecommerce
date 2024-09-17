@@ -24,7 +24,7 @@ export default function Card({ product }) {
           className="w-full h-auto"
         />
       </div>
-      <h4 className="text-gray-700 font-normal my-1">{product.name}</h4>
+      <h4 className="text-gray-700 font-normal my-1">{product.product_name}</h4>
       <div className="flex my-1">
         <i className="rate fa-solid fa-star text-[#ff523b] mr-1"></i>
         <i className="rate fa-solid fa-star text-[#ff523b] mr-1"></i>

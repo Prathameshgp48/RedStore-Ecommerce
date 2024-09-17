@@ -81,7 +81,7 @@ const checkout = async (req, res) => {
         const cartItems = await pool.query('SELECT * FROM CartItems WHERE cart_id = $1;', [cartId]);
 
         const shippingAddress = await pool.query('SELECT id FROM shippingAddress WHERE user_id = $1;', [userId]);
-        const shippingAddressId = shippingAddress.rows[0]?.id; // Use optional chaining to handle missing address
+        const shippingAddressId = shippingAddress.rows[0]?.id;
 
         if (!shippingAddressId) {
             await pool.query('ROLLBACK');

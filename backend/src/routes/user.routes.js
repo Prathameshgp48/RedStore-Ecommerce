@@ -28,11 +28,6 @@ router.route("/logout").post(verifyJWT, logoutUser)
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/addtocart").post(verifyJWT, addToCart)
 router.route("/cart").get(verifyJWT, viewCart)
-router.route("/useraddress").get(verifyJWT, userAddress)
-router.route("/updateaddress").post(verifyJWT, updateAddress)
-router.route("/order/checkout").post(verifyJWT, checkout)
-router.route("/verifyorder").post(verifyJWT, verifyOrder)
-router.route("/myorders").post(verifyJWT, userOrders)
 router.route("/removefromcart").post(verifyJWT, removeFromCart)
 
 export default router;

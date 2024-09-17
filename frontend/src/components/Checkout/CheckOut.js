@@ -11,7 +11,7 @@ function CheckOut() {
     const handleCheckout = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post(`${ServerUrl}/order/checkout`)
+            const response = await axios.post(`http://localhost:8000/api/v3/orders/checkout`)
             console.log(response.data)
 
             if (response.data.success === true) {
