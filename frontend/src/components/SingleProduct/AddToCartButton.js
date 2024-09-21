@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext.js'
 import { toast } from 'react-toastify'
 
-function AddToCartButton({ product, selectedSize, quantity }) {
+function AddToCartButton({ product, quantity, selectedSize }) {
     const { addToCart } = useProduct()
     const { isAuthenticated, setlogout } = useAuth()
     const navigate = useNavigate()
@@ -35,9 +35,9 @@ function AddToCartButton({ product, selectedSize, quantity }) {
             )
 
             if (response.status === 200) {
-                addToCart(product, selectedSize, quantity)
-                console.log("Product added to cart", response)
+                console.log("Product added to cart", response.data.product)
                 toast.success('Product added to cart')
+                addToCart(response.data.product, response.data.product.quantity, response.data.product.size)
             }
         } catch (error) {
             // Server responded with a status other than 200 range

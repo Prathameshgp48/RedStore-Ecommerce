@@ -332,20 +332,21 @@ const addToCart = async (req, res) => {
 
     if (cartProductResult.rows.length === 0) {
       // If product is not in the cart, add it
-      await pool.query(
-        "INSERT INTO CartItems (cart_id, product_id, size, quantity, product_img, product_name, price) VALUES($1, $2, $3, $4, $5, $6, $7);",
+      const newCartItemResult = await pool.query(
+        "INSERT INTO CartItems (cart_id, product_id, size, quantity, product_img, product_name, price) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *;",
         [cart.id, product.product_id, size, quantity, product.productimgurl, product.product_name, product.price]
       );
+      return res.status(200).json({ message: "Product added to cart", product: newCartItemResult.rows[0] });
     } else {
       // If product is already in the cart, update the quantity
-      await pool.query(
-        "UPDATE CartItems SET quantity = quantity + $1 WHERE cart_id = $2 AND product_id = $3;",
+      const updatedCartItemResult = await pool.query(
+        "UPDATE CartItems SET quantity = quantity + $1 WHERE cart_id = $2 AND product_id = $3 RETURNING *;",
         [quantity, cart.id, product.product_id]
       );
       console.log("Product quantity updated in cart:", product.product_name)
+      return res.status(200).json({ message: "Product quantity updated in cart", product: updatedCartItemResult.rows[0] });
     }
 
-    return res.status(200).json({ message: "Product added to cart" });
   } catch (error) {
     console.log("Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });

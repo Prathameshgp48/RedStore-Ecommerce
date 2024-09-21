@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useProduct } from "../../contexts/ProductContext.js";
-import ServerUrl from "../../constant.js";
+// import ServerUrl from "../../constant.js";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext.js";
 
 
 function CartRow({ item }) {
-
   const { removeCart, setQuantity } = useProduct()
   const { isAuthenticated } = useAuth()
   console.log(isAuthenticated)

@@ -14,8 +14,12 @@ export const ProductContextProvider = ({ children }) => {
   };
 
   const addToCart = async (product, quantity, size) => {
-    const newCartItem = { ...product, quantity, size }
-    setCart((prevCart) => [...prevCart, newCartItem])
+    const newCartItem = { ...product, quantity, size}
+    setCart((prevCart) => {
+      const updatedCart = [...prevCart, newCartItem]
+      return updatedCart
+    })
+
   };
 
   const removeCart = (id) => {
@@ -29,6 +33,7 @@ export const ProductContextProvider = ({ children }) => {
         const response = await axios.get(`http://localhost:8000/api/v1/users/cart`, {
           withCredentials: true
         })
+        console.log(response.data)
         setCart(response.data)
       } catch (error) {
         console.log(error)
@@ -47,7 +52,9 @@ export const ProductContextProvider = ({ children }) => {
     loadData()
   }, [])
 
-
+  useEffect(() => {
+    console.log("Cart updated: ", cart);  // Log cart state whenever it changes
+  }, [cart])  
 
   return (
     <ProductContext.Provider

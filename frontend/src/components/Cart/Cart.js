@@ -4,32 +4,37 @@ import CartRow from "./CartRow.js"
 import { useNavigate } from "react-router-dom"
 import { useProduct } from "../../contexts/ProductContext.js"
 import LoadingSpinner from "../Loader/LoadingSpinner.js"
-// import ImageComponent from "../../ImageComponent.js"
 import emptyCart from "../../assets/empty-cart.jpg"
 
 export default function Cart() {
   const [total, setTotal] = useState(0)
-  const { setTotalPrice, cart, loading } = useProduct()
-  
+  const [loading, setLoading] = useState(true)
+  const { setTotalPrice, cart } = useProduct()
+
   const navigate = useNavigate()
 
   useEffect(() => {
-    const totalPrice = cart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0)
-    setTotal(totalPrice)
-    setTotalPrice(totalPrice)
+    setTimeout(() => {
+      const totalPrice = cart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0)
+      setTotal(totalPrice)
+      setTotalPrice(totalPrice)
+      setLoading(false)
+    }, 1000)
   }, [cart, setTotalPrice])
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-96">
         <LoadingSpinner />
       </div>
     )
   }
 
+  // console.log("Cart from Cart.js:", cart)
+
   if (cart.length !== 0) {
     return (
-      <div className="container grid grid-cols-1 md:grid-cols-2 px-10 pb-3 h-auto">
+      <div className="container grid grid-cols-1 md:grid-cols-2 px-10 pb-3 min-h-96 mb-9">
         <table className="w-4/5 mx-auto my-10 border-collapse border">
           <thead>
             <tr className="bg-gray-200">
@@ -79,7 +84,7 @@ export default function Cart() {
   } else {
     return (
       <div className="flex justify-center items-center h-96">
-        <img className="max-h-52 justify-center items-center"src={emptyCart} alt=""/>
+        <img className="max-h-52 justify-center items-center" src={emptyCart} alt="" />
       </div>
     )
   }
