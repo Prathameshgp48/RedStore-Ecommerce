@@ -1,23 +1,39 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../logo.png";
 import { useAuth } from "../../contexts/AuthContext.js";
 import LogoutButton from "./LogoutButton.js";
 import LoginButton from "./LoginButton.js";
+import { FaBars, FaTimes } from "react-icons/fa"
 
 export default function Navbar() {
   const { isAuthenticated } = useAuth()
+  const location = useLocation()
+  const [isOpen, setIsOpen] = useState(false)
   // console.log(isAuthenticated)
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const isHomePage = location.pathname === "/" || "/login" || "/register"
+
   return (
-    <div className="flex justify-between items-center py-4 px-6  bg-gradient-to-r from-white to-red-400 shadow-md">
-      <img className="w-[10%] object-contain py-2 px-3" src={logo} alt="logo" />
-      <ul className="flex justify-between items-center px-4">
+    <div className={`flex justify-between items-center py-4 px-6 bg-gradient-to-r from-white to-red-400 ${isHomePage? "": "shadow-md"} relative`}>
+      <img className="w-[150px] object-contain py-2 px-3" src={logo} alt="logo" />
+
+      <div className="md:hidden cursor-pointer" onClick={toggleMenu}>
+        {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+      </div>
+
+      <ul
+        className={`absolute md:static top-full left-0 w-full md:w-auto  md:bg-transparent transition-all duration-300 ease-in-out 
+        ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:flex md:items-center md:justify-center md:max-h-screen`}>
         <NavLink to="" className="text-black text-base no-underline">
           <li className="list-none mr-10">Home</li>
         </NavLink>
         <NavLink to="/products" className="text-black text-base no-underline">
-          <li className="list-none mr-10">Products</li>
+          <li className="list-none mr-10 ">Products</li>
         </NavLink>
 
         {isAuthenticated ?
