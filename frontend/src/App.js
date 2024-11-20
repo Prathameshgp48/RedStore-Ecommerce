@@ -10,7 +10,7 @@ import ProductDetails from "./components/SingleProduct/ProductDetails.js";
 import { useAuth } from "./contexts/AuthContext.js";
 import ShippingAddress from "./components/Checkout/ShippingAddress.js";
 import VerifyOrder from "./components/Verify/VerifyOrder.js";
-import UserOrder from "./components/Orders/UserOrder.js";
+import MyOrder from "./components/Orders/MyOrder.js";
 import AddProduct from "./components/AddProduct/AddProduct.js";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" />} />
           <Route path="/checkout/address" element={isAuthenticated ? <ShippingAddress /> : <Navigate to="/login" />} />
           <Route path="/verify" element={isAuthenticated ? <VerifyOrder /> : <Navigate to="/login" />} />
-          <Route path="/myorders" element={isAuthenticated ? <UserOrder /> : <Navigate to="/login" />} />
+          <Route path="/myorders" element={isAuthenticated ? <MyOrder /> : <Navigate to="/login" />} />
           <Route path="/admin" element={<AddProduct />} />
         </Route>
       </Routes>

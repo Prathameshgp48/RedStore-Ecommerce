@@ -55,7 +55,7 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-white to-red-400">
       <div className="flex flex-col md:flex-row items-center md:justify-between w-full max-w-6xl p-8 md:p-16">
-        <div className="md:w-1/2 md:order-2 mb-8 md:mb-0 flex justify-center">
+        <div className="hidden md:flex md:w-1/2 md:order-2 mb-8 md:mb-0 justify-center">
           <ImageComponent imagePath="/images/image1.png" altText="Login Image" />
         </div>
         <div className="md:w-1/2 md:order-1 flex flex-col items-center md:items-start text-center md:text-left">

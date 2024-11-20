@@ -145,13 +145,45 @@ const verifyOrder = async (req, res) => {
 }
 
 const userOrders = async (req, res) => {
-    const { id: userId } = req.user;
-    const userOrders = await pool.query(
-        "SELECT * FROM Orders WHERE user_id = $1 AND status='PLACED';",
-        [userId]
-    );
-    console.log(userOrders.rows)
-    return res.status(200).json({ orders: userOrders.rows });
+    try {
+        const { id: userId } = req.user;
+        const userOrders = await pool.query(
+            "SELECT * FROM Orders WHERE user_id = $1 AND status='PLACED';",
+            [userId]
+        );
+
+        const query = `
+        SELECT o.id AS order_id, 
+               o.created_at, 
+               o.total, 
+               o.status, 
+               sa.address_line1, 
+               sa.city, 
+               sa.state, 
+               sa.pin_code, 
+               oi.product_id, 
+               oi.quantity, 
+               p.product_name, 
+               p.price,
+               p.productimgurl
+        FROM Orders o
+        JOIN shippingaddress sa ON o.shipping_address_id = sa.id
+        JOIN OrderItems oi ON o.id = oi.order_id
+        JOIN products p ON oi.product_id = p.product_id
+        WHERE o.user_id = $1 AND (o.status = 'PLACED' OR o.status = 'DISPATCHED');
+    `;
+
+    const { rows } = await pool.query(query, [userId]);
+
+    console.log(rows);
+    res.status(200).json({ success: true, orders: rows });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            error: "Internal Server Error"
+        })
+    }
 }
 
 export {

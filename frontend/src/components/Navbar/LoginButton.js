@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom'
 
 function LoginButton() {
     return (
-        <NavLink to="/login" className="text-black text-base no-underline">
-            <li className="list-none mr-10">Login</li>
+        <NavLink to="/login" className="text-black text-base no-underline block md:border-none py-2 px-4 md:hover:bg-transparent hover:bg-red-100 border-b border-gray-300">
+            <li className="list-none ">Login</li>
         </NavLink>
     )
 }

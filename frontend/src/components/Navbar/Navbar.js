@@ -19,7 +19,7 @@ export default function Navbar() {
   const isHomePage = location.pathname === "/" || "/login" || "/register"
 
   return (
-    <div className={`flex justify-between items-center py-4 px-6 bg-gradient-to-r from-white to-red-400 ${isHomePage? "": "shadow-md"} relative`}>
+    <div className={`flex justify-between items-center py-4 px-6 bg-gradient-to-r from-white to-red-400 ${isHomePage? "": "shadow-md"} relative z-50`}>
       <img className="w-[150px] object-contain py-2 px-3" src={logo} alt="logo" />
 
       <div className="md:hidden cursor-pointer" onClick={toggleMenu}>
@@ -27,22 +27,22 @@ export default function Navbar() {
       </div>
 
       <ul
-        className={`absolute md:static top-full left-0 w-full md:w-auto  md:bg-transparent transition-all duration-300 ease-in-out 
-        ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:flex md:items-center md:justify-center md:max-h-screen`}>
-        <NavLink to="" className="text-black text-base no-underline">
-          <li className="list-none mr-10">Home</li>
+        className={`absolute md:static top-full left-0 w-full md:w-auto md:bg-transparent transition-all duration-300 ease-in-out 
+        ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:flex md:items-center md:justify-center md:max-h-screen bg-white`}>
+        <NavLink onClick={toggleMenu} to="" className="text-black text-base no-underline block md:border-none py-2 px-4 md:hover:bg-transparent hover:bg-red-100 border-b border-gray-300">
+          <li className="list-none">Home</li>
         </NavLink>
-        <NavLink to="/products" className="text-black text-base no-underline">
-          <li className="list-none mr-10 ">Products</li>
+        <NavLink onClick={toggleMenu} to="/products" className="text-black text-base no-underline block md:border-none py-2 px-4 md:hover:bg-transparent hover:bg-red-100 border-b border-gray-300">
+          <li className="list-none">Products</li>
         </NavLink>
 
         {isAuthenticated ?
           <>
-            <NavLink to="/cart" className="text-black text-base no-underline">
-              <li className="list-none mr-10">Cart</li>
+            <NavLink onClick={toggleMenu} to="/cart" className="text-black text-base no-underline block md:border-none py-2 px-4 md:hover:bg-transparent hover:bg-red-100 border-b border-gray-300">
+              <li className="list-none">Cart</li>
             </NavLink>
-            <NavLink to="/myorders" className="text-black text-base no-underline">
-              <li className="list-none mr-10">MyOrders</li>
+            <NavLink onClick={toggleMenu} to="/myorders" className="text-black text-base no-underline block md:border-none py-2 px-4 md:hover:bg-transparent hover:bg-red-100 border-b border-gray-300">
+              <li className="list-none">MyOrders</li>
             </NavLink>
             <LogoutButton />
           </> :
