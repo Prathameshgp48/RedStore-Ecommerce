@@ -29,7 +29,9 @@ const { Pool } = pkg;
 //testing purpose for deploying
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Use single connection string
-  ssl: false,
+  ssl: {
+    rejectUnauthorized: false, // Disable strict SSL checks
+  },
 })
 
 const connectDB = async () => {
