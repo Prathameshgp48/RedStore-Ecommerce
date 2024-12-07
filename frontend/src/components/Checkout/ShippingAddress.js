@@ -33,7 +33,8 @@ function ShippingAddress() {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post(`http://localhost:8000/api/v3/orders/updateaddress`, address);
+        // const response = await axios.post(`http://localhost:8000/api/v3/orders/updateaddress`, address);
+        const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v3/orders/updateaddress`, address);
         console.log(response.data);
         setCurrAdd(response.data);
         setAddress({

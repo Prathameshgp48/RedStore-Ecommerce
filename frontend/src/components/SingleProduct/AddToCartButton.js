@@ -24,7 +24,17 @@ function AddToCartButton({ product, quantity, selectedSize }) {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/users/addtocart", {
+            // const response = await axios.post("http://localhost:8000/api/v1/users/addtocart", {
+            //     product: product,
+            //     quantity: quantity,
+            //     size: selectedSize
+            // },
+            //     {
+            //         withCredentials: true
+            //     }
+            // )
+
+            const response = await axios.post("https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/addtocart", {
                 product: product,
                 quantity: quantity,
                 size: selectedSize

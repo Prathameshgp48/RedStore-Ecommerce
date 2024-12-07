@@ -35,7 +35,8 @@ export default function Login() {
     console.log(login)
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/v1/users/login`, login)
+      // const response = await axios.post(`http://localhost:8000/api/v1/users/login`, login)
+      const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/login`, login)
       console.log(response.data)
       setLogin({
         email: "",

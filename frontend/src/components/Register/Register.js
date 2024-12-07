@@ -30,7 +30,8 @@ export default function Register() {
     console.log(user);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/users/register", user);
+      // const response = await axios.post("http://localhost:8000/api/v1/users/register", user);
+      const response = await axios.post("https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/register", user);
       toast.success(response.data.message || "You Have Registered Successfully🥳")
       setUser({
         email: "",

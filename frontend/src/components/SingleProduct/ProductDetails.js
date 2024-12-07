@@ -26,8 +26,11 @@ function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        // const response = await axios.get(
+        //   `http://localhost:8000/api/v1/users/products/${id}`
+        // );
         const response = await axios.get(
-          `http://localhost:8000/api/v1/users/products/${id}`
+          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/products/${id}`
         );
         // console.log(response.data)
         setProduct(response.data.product)

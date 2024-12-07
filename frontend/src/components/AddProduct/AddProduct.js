@@ -54,7 +54,13 @@ function AddProduct() {
             formData.append('stock', newProduct.stock);
             formData.append('sizes', newProduct.sizes);
 
-            const response = await axios.post('http://localhost:8000/api/v2/addproduct', formData, {
+            // const response = await axios.post('http://localhost:8000/api/v2/addproduct', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
+
+            const response = await axios.post('https://redstore-ecommerce-nlqa.onrender.com/api/v2/addproduct', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

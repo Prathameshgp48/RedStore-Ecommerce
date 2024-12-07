@@ -17,8 +17,12 @@ export default function Products() {
   useEffect(() => {
     ; (async () => {
       try {
+        // const response = await axios.get(
+        //   `http://localhost:8000/api/v1/users/products?category=${category === "Show All" ? "" : category
+        //   }`
+        // );
         const response = await axios.get(
-          `http://localhost:8000/api/v1/users/products?category=${category === "Show All" ? "" : category
+          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/products?category=${category === "Show All" ? "" : category
           }`
         );
         console.log("API Response:", response.data.products);
