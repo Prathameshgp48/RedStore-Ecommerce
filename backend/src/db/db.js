@@ -30,7 +30,7 @@ const { Pool } = pkg;
 const isRenderEnv = process.env.RENDER === "true"
 
 const pool = new Pool({
-  connectionString: isRender? process.env.DATABASE_URL: process.env.EXT_DATABASE_URL, // Use single connection string
+  connectionString: isRenderEnv? process.env.DATABASE_URL: process.env.EXT_DATABASE_URL, // Use single connection string
   ssl: isRenderEnv? false: { rejectUnauthorized: false },
 })
 
