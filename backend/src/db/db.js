@@ -27,9 +27,11 @@ const { Pool } = pkg;
 // });
 
 //testing purpose for deploying
+const isRenderEnv = process.env.RENDER === "true"
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Use single connection string
-  ssl: false,
+  connectionString: isRender? process.env.DATABASE_URL: process.env.EXT_DATABASE_URL, // Use single connection string
+  ssl: isRenderEnv? false: { rejectUnauthorized: false },
 })
 
 const connectDB = async () => {
@@ -38,7 +40,7 @@ const connectDB = async () => {
     console.log(
       `Connection Successful!!\n Host:${pool.options.host}, Port:${pool.options.port}, Database:${pool.options.database}`
     );
-    
+
   } catch (error) {
     console.log("connection FAILED", error);
     process.exit(1);
