@@ -33,8 +33,8 @@ function ShippingAddress() {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        // const response = await axios.post(`http://localhost:8000/api/v3/orders/updateaddress`, address);
-        const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v3/orders/updateaddress`, address);
+        // const response = await axios.post(`http://localhost:8000/api/v1/orders/updateaddress`, address);
+        const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/updateaddress`, address);
         console.log(response.data);
         setCurrAdd(response.data);
         setAddress({
@@ -55,7 +55,8 @@ function ShippingAddress() {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v3/orders/useraddress`);
+        // const response = await axios.get(`http://localhost:8000/api/v1/orders/useraddress`);
+        const response = await axios.get(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/useraddress`, address);
         console.log("Address", response.data);
         setCurrAdd(response.data);
       } catch (error) {

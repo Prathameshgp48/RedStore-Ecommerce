@@ -30,7 +30,7 @@ function ProductDetails() {
         //   `http://localhost:8000/api/v1/users/products/${id}`
         // );
         const response = await axios.get(
-          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/products/${id}`
+          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/products/products/${id}`
         );
         // console.log(response.data)
         setProduct(response.data.product)

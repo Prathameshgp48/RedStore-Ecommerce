@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import ImageComponent from "../../ImageComponent.js";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -32,16 +34,20 @@ export default function Register() {
     try {
       // const response = await axios.post("http://localhost:8000/api/v1/users/register", user);
       const response = await axios.post("https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/register", user);
-      toast.success(response.data.message || "You Have Registered Successfully🥳")
+      if(response.status >= 200) {
+        toast.success(response.data.message || "You Have Registered Successfully🥳")
+        navigate("/login")
+      }
       setUser({
         email: "",
         password: "",
         fullname: "",
         phone_number: ""
       })
+
     } catch (error) {
       toast.error(error.response?.data.message)
-      console.log("ERROR", error.response?.data);
+      console.log("ERROR", error.response);
     }
   };
 

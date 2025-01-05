@@ -22,7 +22,7 @@ export default function Products() {
         //   }`
         // );
         const response = await axios.get(
-          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/users/products?category=${category === "Show All" ? "" : category
+          `https://redstore-ecommerce-nlqa.onrender.com/api/v1/products/products?category=${category === "Show All" ? "" : category
           }`
         );
         console.log("API Response:", response.data.products);
