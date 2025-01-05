@@ -117,7 +117,7 @@ const registerUser = async (req, res) => {
     )
 
     // console.log(token)
-    return res.status(201).json({ data: user.rows[0] , message: "Registered Successfully!"})
+    return res.status(201).json({ data: user.rows[0], message: "Registered Successfully!" })
   } catch (error) {
     console.error(error)
     res.status(500).json({
@@ -159,12 +159,14 @@ const loginUser = async (req, res) => {
     const accessOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
     }
 
     const refreshOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
     }
 
@@ -173,8 +175,8 @@ const loginUser = async (req, res) => {
 
     res.cookie("accessToken", accessToken, accessOptions)
     res.cookie("refreshToken", refreshToken, refreshOptions)
-    console.log("tokens:",accessToken)
-    return res.status(200).json({message: "Done", data: loggedUser})
+    console.log("tokens:", accessToken)
+    return res.status(200).json({ message: "Done", data: loggedUser })
     // return res
     //   .status(200)
     //   .json({
@@ -201,12 +203,14 @@ const logoutUser = async (req, res) => {
   const accessOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
   }
 
   const refreshOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
   }
 
