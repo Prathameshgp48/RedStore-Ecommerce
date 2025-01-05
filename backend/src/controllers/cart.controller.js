@@ -32,32 +32,6 @@ const addToCart = async (req, res) => {
       console.log("Existing cart found: ", cart)
     }
 
-    const viewCart = async (req, res) => {
-  //1.retrieve the userId when user hits the endpoint
-  //2.fetch cart_id corresponding to the userId
-  //3.Using cart_id fetch cartItems corresponding to it
-  //4.Return
-
-  const userId = req.user.id
-  console.log("viewcart userid:", userId)
-
-  const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1 AND status=\'ACTIVE\'", [
-    userId
-  ]);
-  console.log("line:369", cartId.rows)
-
-  if (cartId.rows.length === 0) {
-    return res.status(404).json({ message: "Cart does'nt exist!" });
-  }
-
-  const cartItems = await pool.query(
-    "SELECT * FROM CartItems WHERE cart_id = $1",
-    [cartId.rows[0].id]
-  );
-
-  // console.log(cartItems.rows);
-  return res.status(200).json(cartItems.rows);
-};
 
     // Check if the product is already in the cart
     const cartProductResult = await pool.query(
@@ -88,6 +62,32 @@ const addToCart = async (req, res) => {
   }
 };
 
+const viewCart = async (req, res) => {
+  //1.retrieve the userId when user hits the endpoint
+  //2.fetch cart_id corresponding to the userId
+  //3.Using cart_id fetch cartItems corresponding to it
+  //4.Return
+
+  const userId = req.user.id
+  console.log("viewcart userid:", userId)
+
+  const cartId = await pool.query("SELECT id FROM carts WHERE user_id = $1 AND status=\'ACTIVE\'", [
+    userId
+  ]);
+  console.log("line:369", cartId.rows)
+
+  if (cartId.rows.length === 0) {
+    return res.status(404).json({ message: "Cart does'nt exist!" });
+  }
+
+  const cartItems = await pool.query(
+    "SELECT * FROM CartItems WHERE cart_id = $1",
+    [cartId.rows[0].id]
+  );
+
+  // console.log(cartItems.rows);
+  return res.status(200).json(cartItems.rows);
+};
 
 const removeFromCart = async (req, res) => {
   try {
@@ -115,6 +115,6 @@ const removeFromCart = async (req, res) => {
 
 export {
   removeFromCart,
-  viewCart, 
+  viewCart,
   addToCart
 }
