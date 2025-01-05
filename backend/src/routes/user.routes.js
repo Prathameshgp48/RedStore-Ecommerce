@@ -1,13 +1,10 @@
 import { Router } from "express"
 import {
-  addToCart,
   loginUser,
   logoutUser,
   refreshAccessToken,
   registerUser,
-  viewCart,
 } from "../controllers/user.controller.js"
-import { removeFromCart } from "../controllers/cart.controller.js"
 import { verifyJWT } from "../middleware/auth.middleware.js"
 
 const router = Router()
