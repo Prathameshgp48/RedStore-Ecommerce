@@ -60,8 +60,8 @@ function ShippingAddress() {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/orders/useraddress`);
-        // const response = await axios.get(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/useraddress`, address);
+        // const response = await axios.get(`http://localhost:8000/api/v1/orders/useraddress`);
+        const response = await axios.get(`https://redstore-ecommerce-2nij.onrender.com/api/v1/orders/useraddress`, address);
         console.log("Address", response.data);
         setCurrAdd(response.data);
       } catch (error) {

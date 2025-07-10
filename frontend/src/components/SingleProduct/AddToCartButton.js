@@ -24,17 +24,7 @@ function AddToCartButton({ product, quantity, selectedSize }) {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/cart/addtocart", {
-                product: product,
-                quantity: quantity,
-                size: selectedSize
-            },
-                {
-                    withCredentials: true
-                }
-            )
-
-            // const response = await axios.post("https://redstore-ecommerce-nlqa.onrender.com/api/v1/cart/addtocart", {
+            // const response = await axios.post("http://localhost:8000/api/v1/cart/addtocart", {
             //     product: product,
             //     quantity: quantity,
             //     size: selectedSize
@@ -43,6 +33,16 @@ function AddToCartButton({ product, quantity, selectedSize }) {
             //         withCredentials: true
             //     }
             // )
+
+            const response = await axios.post("https://redstore-ecommerce-2nij.onrender.com/api/v1/cart/addtocart", {
+                product: product,
+                quantity: quantity,
+                size: selectedSize
+            },
+                {
+                    withCredentials: true
+                }
+            )
 
             if (response.status === 200) {
                 console.log("Product added to cart", response.data.product)

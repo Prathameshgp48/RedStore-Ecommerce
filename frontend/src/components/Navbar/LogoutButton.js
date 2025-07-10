@@ -12,7 +12,8 @@ function LogoutButton() {
 
     const handlelogin = async () => {
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/users/logout")
+            // const response = await axios.post("http://localhost:8000/api/v1/users/logout")
+            const response = await axios.post("https://redstore-ecommerce-2nij.onrender.com/api/v1/users/logout")
             console.log(response.data)
             // setlogout()
         } catch (error) {

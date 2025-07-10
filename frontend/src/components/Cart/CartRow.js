@@ -20,8 +20,8 @@ function CartRow({ item }) {
 
     if (isAuthenticated) {
       try {
-        const response = await axios.post(`http://localhost:8000/api/v1/cart/removefromcart`, { productId })
-        // const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/cart/removefromcart`, { productId })
+        // const response = await axios.post(`http://localhost:8000/api/v1/cart/removefromcart`, { productId })
+        const response = await axios.post(`https://redstore-ecommerce-2nij.onrender.com/api/v1/cart/removefromcart`, { productId })
         console.log(response.data)
         if (response.status >= 200) {
           removeCart(item.id)

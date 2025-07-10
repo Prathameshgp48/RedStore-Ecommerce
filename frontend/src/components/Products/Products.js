@@ -17,14 +17,14 @@ export default function Products() {
   useEffect(() => {
     ; (async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/products/products?category=${category === "Show All" ? "" : category
-          }`
-        );
         // const response = await axios.get(
-        //   `https://redstore-ecommerce-nlqa.onrender.com/api/v1/products/products?category=${category === "Show All" ? "" : category
+        //   `http://localhost:8000/api/v1/products/products?category=${category === "Show All" ? "" : category
         //   }`
         // );
+        const response = await axios.get(
+          `https://redstore-ecommerce-2nij.onrender.com/api/v1/products/products?category=${category === "Show All" ? "" : category
+          }`
+        );
         console.log("API Response:", response.data.products);
         if (
           typeof response.data === "object" &&

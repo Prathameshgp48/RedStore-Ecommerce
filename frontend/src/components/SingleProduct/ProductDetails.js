@@ -26,12 +26,12 @@ function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/products/products/${id}`
-        );
         // const response = await axios.get(
-        //   `https://redstore-ecommerce-nlqa.onrender.com/api/v1/products/products/${id}`
+        //   `http://localhost:8000/api/v1/products/products/${id}`
         // );
+        const response = await axios.get(
+          `https://redstore-ecommerce-2nij.onrender.com/api/v1/products/products/${id}`
+        );
         // console.log(response.data)
         setProduct(response.data.product)
         selectProduct(response.data.product)

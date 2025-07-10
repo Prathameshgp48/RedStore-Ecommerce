@@ -8,8 +8,8 @@ function MyOrder() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.post('http://localhost:8000/api/v1/orders/myorders', { withCredentials: true })
-        // const response = await axios.post('https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/myorders')
+        // const response = await axios.post('http://localhost:8000/api/v1/orders/myorders', { withCredentials: true })
+        const response = await axios.post('https://redstore-ecommerce-2nij.onrender.com/api/v1/orders/myorders')
         if (response.status === 200) {
           setOrders(response.data.orders)
           console.log("orders", response.data.orders);
