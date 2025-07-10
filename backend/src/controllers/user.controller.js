@@ -159,31 +159,33 @@ const loginUser = async (req, res) => {
     const accessOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
     }
 
     const refreshOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
     }
 
     existedUser.rows[0].password = ""
     const loggedUser = existedUser.rows[0]
 
+    // if (process.env.NODE_ENV === 'production') {
     res.cookie("accessToken", accessToken, accessOptions)
     res.cookie("refreshToken", refreshToken, refreshOptions)
+
     console.log("tokens:", accessToken)
-    return res.status(200).json({ message: "Done", data: loggedUser })
-    // return res
-    //   .status(200)
-    //   .json({
-    //     message: "Login Successful",
-    //     token: accessToken,
-    //     loggedUser
-    //   })
+
+    return res
+      .status(200)
+      .json({
+        message: "Login Successful",
+        token: accessToken,
+        loggedUser
+      })
   } catch (error) {
     console.log('Error from loginUser ~line 67:', error)
     return res.status(501).json({ message: "Internal server error" })
@@ -203,14 +205,14 @@ const logoutUser = async (req, res) => {
   const accessOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
   }
 
   const refreshOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY, 10) * 24 * 60 * 60 * 1000
   }
 
@@ -219,9 +221,6 @@ const logoutUser = async (req, res) => {
     .clearCookie("refreshToken", refreshOptions)
     .clearCookie("accessToken", accessOptions).json({ message: "User Logout" })
 }
-
-
-
 
 
 const refreshAccessToken = async (req, res) => {
@@ -269,9 +268,18 @@ const refreshAccessToken = async (req, res) => {
   }
 }
 
+const isAuthenticated = async (req, res) => {
+  try {
+    return res.json({ success: true })
+  } catch (error) {
+    return res.json({ sucess: false })
+  }
+}
+
 export {
   registerUser,
   loginUser,
   logoutUser,
-  refreshAccessToken
+  refreshAccessToken,
+  isAuthenticated
 };

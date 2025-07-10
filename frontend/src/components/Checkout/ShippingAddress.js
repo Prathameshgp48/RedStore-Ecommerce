@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ServerUrl from '../../constant';
 import CheckOut from './CheckOut';
+import { useProduct } from '../../contexts/ProductContext';
 
 
 function ShippingAddress() {
@@ -14,6 +15,10 @@ function ShippingAddress() {
   });
   const [errors, setErrors] = useState({});
   const [currAdd, setCurrAdd] = useState({});
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const { setTotalPrice, cart } = useProduct()
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,8 +38,8 @@ function ShippingAddress() {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        // const response = await axios.post(`http://localhost:8000/api/v1/orders/updateaddress`, address);
-        const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/updateaddress`, address);
+        const response = await axios.post(`http://localhost:8000/api/v1/orders/updateaddress`, address);
+        // const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/updateaddress`, address);
         console.log(response.data);
         setCurrAdd(response.data);
         setAddress({
@@ -55,8 +60,8 @@ function ShippingAddress() {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        // const response = await axios.get(`http://localhost:8000/api/v1/orders/useraddress`);
-        const response = await axios.get(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/useraddress`, address);
+        const response = await axios.get(`http://localhost:8000/api/v1/orders/useraddress`);
+        // const response = await axios.get(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/useraddress`, address);
         console.log("Address", response.data);
         setCurrAdd(response.data);
       } catch (error) {
@@ -64,10 +69,20 @@ function ShippingAddress() {
         // Additional logging to help debug
         console.log('Error details:', error.response ? error.response.data : error.message);
       }
+
     };
 
     fetchAddress();
   }, [address]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const totalPrice = cart.reduce((acc, product) => acc + Number(product.price) * product.quantity, 0)
+      setTotal(totalPrice)
+      setTotalPrice(totalPrice)
+      setLoading(false)
+    }, 1000)
+  }, [cart, setTotalPrice])
 
   return (
     <div className="flex items-center justify-center min-h-screen mx-auto p-4 bg-gradient-to-r from-white to-red-300">
@@ -81,7 +96,7 @@ function ShippingAddress() {
               <p className="text-gray-700 mb-2">{currAdd.address_line2}</p>
               <p className="text-gray-700 mb-2">{currAdd.city}, {currAdd.state} - {currAdd.pin_code}</p>
             </div>) : (<div>
-              <h1 className="text-2xl font-bold mb-4 flex justify-center">No Address Found</h1>
+              <h1 className="text-2xl font-bold mb-4 flex justify-center">Enter Address to ship!</h1>
             </div>
           )}
           <h1 className="text-2xl font-extrabold mb-4 flex justify-center">OR</h1>
@@ -160,7 +175,7 @@ function ShippingAddress() {
             <tbody>
               <tr className="bg-gray-200 border-b border-gray-300">
                 <td className="px-4 py-2">Subtotal</td>
-                <td className="text-right px-4 py-2">Rs.3400</td>
+                <td className="text-right px-4 py-2">Rs.{total}</td>
               </tr>
               <tr className="bg-gray-200 border-b border-gray-300">
                 <td className="px-4 py-2">Tax</td>
@@ -168,7 +183,7 @@ function ShippingAddress() {
               </tr>
               <tr className="bg-gray-200">
                 <td className="px-4 py-2">Total</td>
-                <td className="text-right px-4 py-2">Rs.3450</td>
+                <td className="text-right px-4 py-2">Rs.{total+50}</td>
               </tr>
               <tr>
                 <td colSpan="2" className="border-t border-gray-300">
@@ -196,7 +211,7 @@ function ShippingAddress() {
               </tr>
               <tr>
                 <td colSpan="2" className="border-t border-gray-300">
-                  <CheckOut/>
+                  <CheckOut />
                 </td>
               </tr>
             </tbody>

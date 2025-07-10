@@ -11,8 +11,8 @@ function CheckOut() {
     const handleCheckout = async (e) => {
         e.preventDefault()
         try {
-            // const response = await axios.post(`http://localhost:8000/api/v1/orders/checkout`)
-            const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/checkout`)
+            const response = await axios.post(`http://localhost:8000/api/v1/orders/checkout`,{withCredentials: true})
+            // const response = await axios.post(`https://redstore-ecommerce-nlqa.onrender.com/api/v1/orders/checkout`)
             console.log(response.data)
 
             if (response.data.success === true) {

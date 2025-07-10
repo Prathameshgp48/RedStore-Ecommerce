@@ -18,21 +18,21 @@ const { Pool } = pkg;
 //   }
 // };
 
-// const pool = new Pool({
-//   user: process.env.DB_USER,
-//   host: process.env.DB_HOST,
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASSWORD,
-//   port: process.env.DB_PORT,
-// });
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
 //testing purpose for deploying
 const isRenderEnv = process.env.RENDER === "true"
 
-const pool = new Pool({
-  connectionString: isRenderEnv? process.env.DATABASE_URL: process.env.EXT_DATABASE_URL, // Use single connection string
-  ssl: isRenderEnv? false: { rejectUnauthorized: false },
-})
+// const pool = new Pool({
+//   connectionString: isRenderEnv? process.env.DATABASE_URL: process.env.EXT_DATABASE_URL, // Use single connection string
+//   ssl: isRenderEnv? false: { rejectUnauthorized: false },
+// })
 
 const connectDB = async () => {
   try {

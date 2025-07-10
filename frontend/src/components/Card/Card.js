@@ -1,5 +1,4 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import ImageComponent from "../../ImageComponent.js";
 import { useProduct } from "../../contexts/ProductContext.js";
 
@@ -11,7 +10,7 @@ export default function Card({ product }) {
     console.log(product);
   };
 
-  // console.log("From card.js ~line 14:",product);
+
   return (
     <div
       className="flex flex-col items-start w-full md:w-1/5 p-2 min-w-[200px] mb-12 transition-transform duration-500 hover:transform hover:-translate-x-1"
@@ -21,7 +20,7 @@ export default function Card({ product }) {
         <ImageComponent
           imagePath={product.productimgurl}
           altText={product.name}
-          className="w-full h-auto"
+          className="w-full h-full object-cover"
         />
       </div>
       <h4 className="text-gray-700 font-normal my-1">{product.product_name}</h4>

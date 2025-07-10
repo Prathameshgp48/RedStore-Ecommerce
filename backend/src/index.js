@@ -17,4 +17,4 @@ connectDB()
       console.log(`Server running on port ${port}`);
     });
   })
-  .catch((err) => console.log("MONGODB CONNECTION FAILED", err));
+  .catch((err) => console.log("DATABASE CONNECTION FAILED", err));

@@ -1,7 +1,7 @@
 import React from "react";
 import ImageComponent from "../../ImageComponent.js";
 
-export default function Footer() {
+function Footer() {
   return (
     <div className="bg-black text-gray-400 py-10 px-6">
       <div className="w-full mx-auto">
@@ -45,3 +45,5 @@ export default function Footer() {
     </div>
   );
 }
+
+export default React.memo(Footer);

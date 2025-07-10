@@ -4,16 +4,20 @@ import axios from 'axios'
 
 function LogoutButton() {
     axios.defaults.withCredentials = true
-    const { setlogout } = useAuth()
+    const { isAuthenticated } = useAuth()
+
+    if(!isAuthenticated) {
+        return null
+    }
 
     const handlelogin = async () => {
         try {
             const response = await axios.post("http://localhost:8000/api/v1/users/logout")
             console.log(response.data)
-            setlogout()
+            // setlogout()
         } catch (error) {
             console.log("Error:", error)
-            setlogout()
+            // setlogout()
         }
     }
 

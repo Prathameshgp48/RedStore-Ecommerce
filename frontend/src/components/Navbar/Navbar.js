@@ -6,7 +6,7 @@ import LogoutButton from "./LogoutButton.js";
 import LoginButton from "./LoginButton.js";
 import { FaBars, FaTimes } from "react-icons/fa"
 
-export default function Navbar() {
+function Navbar() {
   const { isAuthenticated } = useAuth()
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
@@ -19,7 +19,7 @@ export default function Navbar() {
   const isHomePage = location.pathname === "/" || "/login" || "/register"
 
   return (
-    <div className={`flex justify-between items-center py-4 px-6 bg-gradient-to-r from-white to-red-400 ${isHomePage? "": "shadow-md"} relative z-50`}>
+    <div className={`flex justify-between items-center py-4 px-6 bg-gradient-to-r from-white to-red-400 ${isHomePage ? "" : "shadow-md"} relative z-50`}>
       <img className="w-[150px] object-contain py-2 px-3" src={logo} alt="logo" />
 
       <div className="md:hidden cursor-pointer" onClick={toggleMenu}>
@@ -52,3 +52,5 @@ export default function Navbar() {
     </div>
   );
 }
+
+export default React.memo(Navbar)

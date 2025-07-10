@@ -7,6 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   
     useEffect(() => {
         const authState = localStorage.getItem("isAuthenticated")
+        console.log(authState)
         if (authState) {
             setIsAuthenticated(JSON.parse(authState))
         }

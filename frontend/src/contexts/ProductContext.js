@@ -30,7 +30,7 @@ export const ProductContextProvider = ({ children }) => {
     console.log(authStatus)
     if (authStatus) {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/users/cart`, {
+        const response = await axios.get(`http://localhost:8000/api/v1/cart/cart`, {
           withCredentials: true
         })
         console.log(response.data)
